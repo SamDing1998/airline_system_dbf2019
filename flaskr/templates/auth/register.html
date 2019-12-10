@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Register{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="type">Type</label>
+    <select name = "type" id="type" onchange="change_type(this.options[this.selectedIndex].value)">
+      <option value="Customer">Customer</option>
+      <option value="Airline Staff" selected>AirlineStaff</option>
+      <option value="Booking Agent">Booking Agent</option>
+    </select>
+    <br><br>
+    <label for="username" id="username_label">Username</label>
+    <input name="username" id="username" required>
+    <br><br>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required>
+    <br><br>
+    <div id="airline_name_total">
+      <label for="airline_name">Airline Name</label>
+      <input id="airline_name" name="airline_name" type="text">
+    </div>
+    <br>
+    <div id="first_name_total">
+      <label for="first_name">First Name</label>
+      <input id="first_name" name="first_name" type="text">
+    </div>
+    <br>
+    <div id="last_name_total">
+      <label for="last_name">Last Name</label>
+      <input id="last_name" name="last_name" type="text">
+    </div>
+    <br>
+    <div id="date_of_birth_total">
+      <label for="date_of_birth">Date of Birth</label>
+      <input id="date_of_birth" name="date_of_birth" type="date">
+    </div>
+    <br>
+    <div id="booking_agent_id_total" hidden>
+      <label for="booking_agent_id">Booking Agent ID</label>
+      <input id="booking_agent_id" name="booking_agent_id" type="text">
+    </div>
+    <br>
+    <div id="name_total" hidden>
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text">
+    </div>
+    <br>
+    <div id="building_number_total" hidden>
+      <label for="building_number">Building Number</label>
+      <input id="building_number" name="building_number" type="text">
+    </div>
+    <br>
+    <div id="street_total" hidden>
+      <label for="street">Street</label>
+      <input id="street" name="street" type="text">
+    </div>
+    <br>
+    <div id="phone_number_total" hidden>
+      <label for="phone_number">Phone Number</label>
+      <input id="phone_number" name="phone_number" type="text">
+    </div>
+    <br>
+    <div id="passport_number_total" hidden>
+      <label for="passport_number">Passport Number</label>
+      <input id="passport_number" name="passport_number" type="text">
+    </div>
+    <br>
+    <div id="passport_expiration_total" hidden>
+      <label for="passport_expiration">Passport Expiration</label>
+      <input id="passport_expiration" name="passport_expiration" type="date">
+    </div>
+    <br>
+    <div id="passport_country_total" hidden>
+      <label for="passport_country">Passport Country</label>
+      <input id="passport_country" name="passport_country" type="text">
+    </div>
+    <br>
+    <div id="city_total" hidden>
+      <label for="city">City</label>
+      <input id="city" name="city" type="text">
+    </div>
+    <br>
+    <div id="state_total" hidden>
+      <label for="state">State</label>
+      <input id="state" name="state" type="text">
+    </div>
+    <br>
+    <input type="submit" value="Register">
+
+  </form>
+<script>
+  function change_type(type){
+    if (type === 'Airline Staff'){
+      document.getElementById('airline_name_total').hidden = false;
+      document.getElementById('first_name_total').hidden = false;
+      document.getElementById('last_name_total').hidden = false;
+      document.getElementById('name_total').hidden = true;
+      document.getElementById('date_of_birth_total').hidden = false;
+      document.getElementById('booking_agent_id_total').hidden = true;
+      document.getElementById('building_number_total').hidden = true;
+      document.getElementById('street_total').hidden = true;
+      document.getElementById('city_total').hidden = true;
+      document.getElementById('state_total').hidden = true;
+      document.getElementById('phone_number_total').hidden = true;
+      document.getElementById('passport_number_total').hidden = true;
+      document.getElementById('passport_expiration_total').hidden = true;
+      document.getElementById('passport_country_total').hidden = true;
+      document.getElementById('username_label').textContent = 'Username';
+    }
+    else if(type === 'Customer') {
+      document.getElementById('airline_name_total').hidden = true;
+      document.getElementById('first_name_total').hidden = true;
+      document.getElementById('last_name_total').hidden = true;
+      document.getElementById('name_total').hidden = false;
+      document.getElementById('date_of_birth_total').hidden = false;
+      document.getElementById('booking_agent_id_total').hidden = true;
+      document.getElementById('building_number_total').hidden = false;
+      document.getElementById('street_total').hidden = false;
+      document.getElementById('city_total').hidden = false;
+      document.getElementById('state_total').hidden = false;
+      document.getElementById('phone_number_total').hidden = false;
+      document.getElementById('passport_number_total').hidden = false;
+      document.getElementById('passport_expiration_total').hidden = false;
+      document.getElementById('passport_country_total').hidden = false;
+      document.getElementById('username_label').textContent = 'Email'
+    }
+    else{
+      document.getElementById('airline_name_total').hidden = true;
+      document.getElementById('first_name_total').hidden = true;
+      document.getElementById('last_name_total').hidden = true;
+      document.getElementById('name_total').hidden = true;
+      document.getElementById('date_of_birth_total').hidden = true;
+      document.getElementById('booking_agent_id_total').hidden = false;
+      document.getElementById('building_number_total').hidden = true;
+      document.getElementById('street_total').hidden = true;
+      document.getElementById('city_total').hidden = true;
+      document.getElementById('state_total').hidden = true;
+      document.getElementById('phone_number_total').hidden = true;
+      document.getElementById('passport_number_total').hidden = true;
+      document.getElementById('passport_expiration_total').hidden = true;
+      document.getElementById('passport_country_total').hidden = true;
+      document.getElementById('username_label').textContent = 'Email'
+
+    };
+  }
+</script>
+{% endblock %}
