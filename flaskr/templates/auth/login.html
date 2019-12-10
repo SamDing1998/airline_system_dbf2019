@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Log In{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="type">Type</label>
+    <select name = "type" id="type" onchange="changetype(this.options[this.selectedIndex].value)">
+      <option value="Customer">Customer</option>
+      <option value="Airline Staff" selected>AirlineStaff</option>
+      <option value="Booking Agent">Booking Agent</option>
+    </select>
+    <label for="username" id="username_label">Username</label>
+    <input name="username" id="username" required>
+    <label for="password" id="username_labe2">Password</label>
+    <input type="password" name="password" id="password" required>
+    <input type="submit" value="Log In">
+  </form>
+<script>
+  function changetype(type){
+    if (type === 'Airline Staff'){
+      document.getElementById('username_label').textContent = 'Username';
+    }
+    else if(type === 'Customer') {
+      document.getElementById('username_label').textContent = 'Email'
+    }
+    else{
+      document.getElementById('username_label').textContent = 'Email'
+
+    };
+  }
+</script>
+{% endblock %}
