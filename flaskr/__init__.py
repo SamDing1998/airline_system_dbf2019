@@ -35,4 +35,7 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp)
 
+    from . import airline_staff
+    app.register_blueprint(airline_staff.bp)
+
     return app
