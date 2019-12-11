@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase</title>
+
+</head>
+
+<body>
+
+    <h2>Flight Information</h2>
+    <table border="1">
+      <tr>
+          <th>Flight Number</th>
+          <th>Airline</th>
+          <th>Departure Airport</th>
+          <th>Departure Time</th>
+          <th>Arrive Airport</th>
+          <th>Arrive Time</th>
+          <th>Flight Status</th>
+          <th>Price</th>
+      </tr>
+        <tr>
+            <th>{{ target_flight['flight_num'] }}</th>
+            <th>{{ target_flight['airline_name'] }}</th>
+            <th>{{ target_flight['departure_airport'] }}</th>
+            <th>{{ target_flight['departure_time'] }}</th>
+            <th>{{ target_flight['arrival_airport'] }}</th>
+            <th>{{ target_flight['arrival_time'] }}</th>
+            <th>{{ target_flight['status'] }}</th>
+            <th>{{ target_flight['price'] }}</th>
+        </tr>
+    </table>
+
+    <h2>Payment Information</h2>
+    <form method="post">
+        {% if g.type == 'booking_agent' %}
+            <label for="customer_email">Customer Email</label>
+            <input id="customer_email" name="customer_email" type="email" required>
+            <hr>
+        {% endif %}
+
+        <br>
+        <input type="submit" value="purchase">
+    </form>
+
+</body>
+</html>

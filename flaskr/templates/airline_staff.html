@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>{{ g.user['email']}}</h1>
+    <form method="post" action="{{ url_for(airline_staff.view_my_flights) }}">
+        <input type="submit" id="View My flights" value="View My flights">
+        </form>
+        <br>
+    <form method="post" action="{{ url_for(airline_staff.create_new_flights) }}">
+        <input type="submit" id="Create new flights" value="Create new flights">
+        </form>
+        <br>
+    <form method="post" action="{{ url_for(airline_staff.change_status_of_flights) }}">
+        <input type="submit" id="Change Status of flights" value="Change Status of flights">
+        </form>
+    <br>
+    <form method="post" action="{{ url_for(airline_staff.add_airplane) }}">
+        <input type="submit" id="Add airplane in the system" value="Add airplane in the system">
+        </form>
+        <br>
+    <form method="post" action="{{ url_for(airline_staff.add_airport) }}">
+        <input type="submit" id="Add new airport in the system" value="Add new airport in the system">
+        </form>
+        <br>
+    <form method="post" action="{{ url_for(airline_staff.view_booking_agents) }}">
+        <input type="submit" id="View all the booking agents" value="View all the booking agents">
+        </form>
+    <br>
+    <form method="post" action="{{ url_for(airline_staff.view_frequent_customers) }}">
+        <input type="submit" id="View frequent customers" value="View frequent customers">
+        </form>
+        <br>
+    <form method="post" action="{{ url_for(airline_staff.view_reports) }}">
+        <input type="submit" id="View reports" value="View reports">
+        </form>
+        <br>
+    <form method="post" action="{{ url_for(airline_staff.compare) }}">
+        <input type="submit" id="Comparison of Revenue earned" value="Comparison of Revenue earned">
+        </form>
+        <br>
+    <form method="post" action="{{ url_for(airline_staff.view_top_destinations) }}">
+        <input type="submit" id="View Top destinations" value="View Top destinations">
+        </form>
+        <br>
+    <form method="post" action="{{ url_for(airline_staff.logout) }}">
+        <input type="submit" id="Logout" value="Logout">
+        </form>
+        <br>
+
+</body>
+</html>

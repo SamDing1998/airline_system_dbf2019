@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Flights</title>
+</head>
+
+<body>
+    <table border="1">
+      <tr>
+        <th>My Flights</th>
+      </tr>
+      <tr>
+          <th>Flight Number</th>
+          <th>Airline</th>
+          <th>Departure Airport</th>
+          <th>Departure Time</th>
+          <th>Arrive Airport</th>
+          <th>Arrive Time</th>
+          <th>Status</th>
+          <th>Purchase</th>
+      </tr>
+        {% if result_flights %}
+        {% for f in result_flights %}
+        <tr>
+            <th>{{ f['flight_num'] }}</th>
+            <th>{{ f['airline_name'] }}</th>
+            <th>{{ f['departure_airport'] }}</th>
+            <th>{{ f['departure_time'] }}</th>
+            <th>{{ f['arrival_airport'] }}</th>
+            <th>{{ f['arrival_time'] }}</th>
+            <th>{{ f['status'] }}</th>
+            <th><button onclick="purchase( '{{ f['airline_name'] }}', '{{ f['flight_num'] }}')">Purchase</button></th>
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </table>
+</body>
+
+<script>
+    function purchase(airline_name, flight_num){
+        /* check if there is a user logged in */
+        {% if g.user %}
+            location.href = '{{ url_for('public.purchase') }}?airline_name='+airline_name
+            +"&flight_num="+flight_num;
+        {% else %}
+            location.href = '{{ url_for('auth.login') }}';
+        {% endif %}
+
+    }
+</script>
+
+</html>

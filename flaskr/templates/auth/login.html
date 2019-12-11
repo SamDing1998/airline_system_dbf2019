@@ -18,6 +18,10 @@
     <input type="password" name="password" id="password" required>
     <input type="submit" value="Log In">
   </form>
+
+  <button onclick="searchPublic()">Search For Flights</button>
+  <button onclick="toRegister()">Register</button>
+
 <script>
   function changetype(type){
     if (type === 'Airline Staff'){
@@ -31,5 +35,14 @@
 
     };
   }
+
+  function searchPublic(){
+    location.href = "{{url_for('auth.search')}}"
+  }
+
+  function toRegister(){
+    location.href = "{{url_for('auth.register')}}"
+  }
+
 </script>
 {% endblock %}

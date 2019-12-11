@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Agent Home Page</title>
+</head>
+<body>
+<h1>{{ g.user['email']}}</h1>
+<br>
+
+<!-- View all NOTCUSTOMER's flights -->
+<form method="post" action="{{url_for('booking_agent.view_my_flights')}}">
+    <h1>View My Flights</h1>
+    <label for="airline_name">Airline Name</label>
+    <input id="airline_name" name="airline_name" type="text">
+    <label for="begin_date" >Begin Date</label>
+    <input id="begin_date" name="begin_date" type="date">
+    <label for="end_date">End Data</label>
+    <input id="end_date" name="end_date" type="date">
+    <br>
+    <br>
+    <label for="departure_airport">Departure Airport</label>
+    <input id="departure_airport" name="departure_airport" type="text">
+    <label for="departure_city">Departure City</label>
+    <input id="departure_city" name="departure_city" type="text">
+    <br><br>
+    <label for="arrival_airport">Arrival Airport</label>
+    <input id="arrival_airport" name="arrival_airport" type="text">
+    <label for="arrival_city">Arrival City</label>
+    <input id="arrival_city" name="arrival_city" type="text">
+    <br>
+    <br>
+    <input type="submit" value="View My Flights">
+</form>
+
+<!-- View My Commissions -->
+<form method="post" action="{{url_for('agent.view_my_commissions')}}">
+    <h1>View My Commissions</h1>
+    <label for="begin_date">Begin Date</label>
+    <input id="begin_date" name="begin_date" type="date">
+    <label for="end_date">End Date</label>
+    <input id="end_date" name="end_date" type="date">
+    <input type="submit" value="View My Commissions">
+</form>
+
+
+<!-- Search For Flights -->
+<button type="button" onclick="viewTopCustomers()" >View Top Customers</button>
+
+<!-- Search For Flights -->
+<button type="button" onclick="searchFlights()" >Search For Flights</button>
+
+<!-- Log Out -->>
+<button type="button" onclick="agentLogOut()" >Log Out</button>
+
+<script>
+
+function viewTopCustomers(){
+    location.href="{{url_for('agent.view_top_customers')}}";
+}
+
+function searchFlights(){
+    location.href="{{url_for('public.search')}}";
+}
+
+function agentLogOut(){
+    location.href="{{url_for('auth.logout')}}";
+}
+
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Flights</title>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+
+<body>
+    <div id="numChartContainer" style="height: 500px; width: 100%;"></div>
+    <br>
+    <br>
+    <div id="sumChartContainer" style="height: 500px; width: 100%;"></div>
+    <h2>You total spending in this period(Default is past 1 year) is: {{ total_spending }} in </h>
+</body>
+
+<script type="text/javascript">
+
+    window.onload = function () {
+        /* Top Ticket Amount Chart */
+        var num_chart = new CanvasJS.Chart("numChartContainer", {
+            animationEnabled: true,
+            theme: "light2",
+            title:{
+                text: "Top 5 Customers Bases on Purchased Ticket Amount"
+            },
+            axisY: {
+                title: "Ticket Num"
+            },
+            data: [{        
+                type: "column",  
+                showInLegend: true, 
+                legendMarkerColor: "grey",
+                //legendText: "MMbbl = one million barrels",
+                dataPoints: [      
+                    
+                    {% for c in num_tops_list %}
+                            { x: {{ c['idx'] }}, y: {{c['num']}}, label: '{{ c['email'] }}' },
+                    {% endfor %}
+
+                ]
+            }]
+        });
+
+        /* Top Commissions Chart */
+        var sum_chart = new CanvasJS.Chart("sumChartContainer", {
+            animationEnabled: true,
+            theme: "light2",
+            title:{
+                text: "Top 5 Customers Bases on Commision Amount"
+            },
+            axisY: {
+                title: "Commission"
+            },
+            data: [{        
+                type: "column",  
+                showInLegend: true, 
+                legendMarkerColor: "grey",
+                //legendText: "MMbbl = one million barrels",
+                dataPoints: [      
+                    
+                    {% for c in sum_tops_list %}
+                            { x: {{ c['idx'] }}, y: {{c['sum']}}, label: '{{ c['email'] }}' },
+                    {% endfor %}
+
+                ]
+            }]
+        });
+
+        num_chart.render();
+        sum_chart.render();    
+    }
+
+</script>
+
+
+</html>

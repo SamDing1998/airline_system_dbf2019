@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Flights</title>
+</head>
+
+<body>
+    <table border="1">
+      <tr>
+        <th>My Flights</th>
+      </tr>
+      <tr>
+          <th>Flight Number</th>
+          <th>Airline</th>
+          <th>Departure Time</th>
+          <th>Departure Airport</th>
+          <th>Arrive Time</th>
+          <th>Arrive Airport</th>
+          <th>Delay Status</th>
+      </tr>
+        {% if cust_flights %}
+        {% for f in cust_flights %}
+        <tr>
+            <th>{{ f['flight_number'] }}</th>
+            <th>{{ f['airline_name'] }}</th>
+            <th>{{ f['departure_airport'] }}</th>
+            <th>{{ f['departure_time'] }}</th>
+            <th>{{ f['arrival_airport'] }}</th>
+            <th>{{ f['arrival_time'] }}</th>
+            <th>{{ f['status'] }}</th>
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </table>
+
+</body>
+</html>

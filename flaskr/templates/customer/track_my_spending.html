@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Flights</title>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+
+<body>
+    <div id="chartContainer" style="height: 500px; width: 100%;"></div>
+    <h2>Your total spending in this period(Default is past 1 year) is: {{ total_spending }}</h2>
+</body>
+
+<script type="text/javascript">
+
+window.onload = function () {
+	
+    var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        
+        title:{
+            text:"Your Spending"
+        },
+        axisX:{
+            interval: 1
+        },
+        axisY2:{
+            interlacedColor: "rgba(1,77,101,.2)",
+            gridColor: "rgba(1,77,101,.1)",
+            title: "Number of Companies"
+        },
+        data: [{
+            type: "bar",
+            name: "companies",
+            axisYType: "secondary",
+            color: "#014D65",
+            dataPoints: [
+                {% for s in spending_chart_data %}
+                    { x: {{ s['idx'] }}, y: {{s['sum']}}, label: '{{ s['year'] }}-{{ s['month'] }}' },
+                {% endfor %}
+            ]
+
+            dataPoints: datalist
+        }]
+    });
+    chart.render();
+    
+    }
+
+
+</script>
+
+
+</html>
