@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <script type="text/javascript">
+  window.onload = function () {
+    let chart = new CanvasJS.Chart("chartContainer",
+
+    {
+      title:{
+        text: "My Report"
+      },
+      data: [
+      {
+        dataPoints: [
+            {% for s in spending %}
+                { x: {{ s['index'] }}, y: {{s['count']}}, label: '{{ s['year'] }}-{{ s['month'] }}' },
+            {% endfor %}
+        ]
+      }
+      ]
+    });
+
+    chart.render();
+  }
+  </script>
+  <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script></head>
+  <body>
+   <div id="chartContainer" style="height: 300px; width: 100%;">
+   </div>
+ </body>
+</html>
