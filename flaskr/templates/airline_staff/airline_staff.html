@@ -5,6 +5,17 @@
     <title>Title</title>
 </head>
 <body>
+<section class="content">
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+    <center>
+        <div class="flash" style="color:red;font-size: 30px;">{{ message }}</div>
+    </center>
+    {% endfor %} {% block content %}{% endblock %}
+</section>
+
 <h1>{{ g.user['email']}}</h1>
 
 <br>
@@ -44,5 +55,152 @@
         <br><br>
     <input type="submit" value="Click to view customer">
 </form>
+<form method="post" action="{{ url_for('airline_staff.add_airplane') }}">
+    <hr>
+    <h1>Add an airplane</h1>
+    <br><br>
+    <label for="airline_name">Airline Name</label>
+    <input id="airline_name2" name="airline_name" type="text" value= "{{ g.user['airline_name'] }}" readonly="true" >
+    <label for="airplane_id">Plane ID</label>
+    <input id="airplane_id" name="airplane_id" required pattern="[A-Za-z0-9]{1,20}" type="number">
+    <br><br>
+    <label for="seats">Seat Amount</label>
+    <input id="seats" name="seats" required="required" pattern="[A-Za-z0-9]{1,20}" type="number">
+    <br><br>
+    <input type="submit" value="Click to add">
+    <br><br>
+</form>
+
+<h1>Add a Flight</h1>>
+    <form method="post" action="{{ url_for('airline_staff.add_flight') }}">
+        <label for="airline_name_flight">Airline Name</label>
+        <input id="airline_name_flight" name="airline_name_flight" type="text" value= "{{ g.user['airline_name'] }}" readonly="true" >
+        <br><br>
+        <label for="airplane_id_flight">Plane ID</label>
+        <input id="airplane_id_flight" name="airplane_id_flight" type="number" required>
+        <br><br>
+        <label for="flight_number_flight">Flight Number</label>
+        <input id="flight_number_flight" name="flight_number_flight" type="text" required>
+        <br><br>
+        <label for="departure_time_flight">Departure Time</label>
+        <input id="departure_time_flight" name="departure_time_flight" type="datetime-local" step="1" required>
+        <br><br>
+        <label for="arrival_time_flight">Arrive Time</label>
+        <input id="arrival_time_flight" name="arrival_time_flight" type="datetime-local" step="1" required>
+        <br><br>
+        <label for="departure_airport_flight">Departure Airport</label>
+        <input id="departure_airport_flight" name="departure_airport_flight" type="text" required>
+        <br><br>
+        <label for="arrival_airport_flight">Arrive Airport</label>
+        <input id="arrival_airport_flight" name="arrival_airport_flight" type="text" required>
+        <br><br>
+        <label for="price_flight">Base Price</label>
+        <input id="price_flight" name="price_flight" type="number" required>
+        <br><br>
+        <label for="status_flight">Delay Status</label>
+        <select id="status_flight" name="status_flight" required>
+            <option value="delayed">delayed</option>
+            <option value="on-time">on-time</option>
+        </select>
+        <br>
+        <input type="submit" value="Click to add">
+    </form>
+<h1>Add Airport</h1>
+    <br><br>
+    <form method="post" action="{{ url_for('airline_staff.add_airport') }}">
+        <label for="airport_city">City</label>
+        <input id="airport_city" name="airport_city" type="text" required>
+        <label for="airport_name">Airport Name</label>
+        <input id="airport_name" name="airport_name" type="text" required>
+        <br>
+        <input type="submit" value="Click to add the airport">
+        <br>
+    </form>
+    <br><br>
+<hr>
+    <h1>Change Status of a Flight</h1>>
+    <form method="post" action="{{ url_for('airline_staff.change_status') }}">
+        <label for="airline_name_status">Airline Name</label>
+        <input id="airline_name_status" name="airline_name_status" type="text" value= "{{ g.user['airline_name'] }}" readonly="true" >
+        <br><br>
+        <label for="departure_time_status">Departure Time</label>
+        <input id="departure_time_status" name="departure_time_status" type="datetime-local" step="1" required>
+        <br><br>
+        <label for="flight_number_status">Flight Number</label>
+        <input id="flight_number_status" name="flight_number_status" type="text" required>
+        <br><br>
+        <label for="status">Delay Status</label>
+        <select id="status" name="status">
+            <option value="delayed">delayed</option>
+            <option value="on-time">on-time</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Click to change status">
+        <br><br>
+    </form>
+    <hr>
+<hr>
+    <h1>View Reports</h1>
+    <form method="post" action="{{ url_for('airline_staff.view_report') }}">
+        <label for="type">Search Type</label>
+        <select name="type" id="type" onchange="change_type(this.options[this.selectedIndex].value)">
+            <option value="month">Last Month</option>
+            <option value="year">Last Year</option>
+            <option value="other" selected>Other</option>
+        </select>
+        <div id="time4">
+        <label for="from_date4">From</label>
+        <input id="from_date4" name="from_date" type="date" required>
+        <label for="to_date4">To</label>
+        <input id="to_date4" name="to_date" type="date" required>
+        </div>
+        <input type="submit" value="Click to view the report in your airline">
+        <br>
+    </form>
+    <hr>
+    <br><br>
+<hr>
+<form method="post" action="{{ url_for('airline_staff.compare_revenue') }}">
+    <h1>View Revenue</h1>
+    <input type="submit" value="Click to view revenue">
+</form>
+    <hr>
+    <br>
+<hr>
+    <h1>View Agents</h1>
+    <button onclick="location.href='{{ url_for('airline_staff.view_agents') }}';">Click to view booking agents</button>
+    <hr>
+    <h1>View Top 3 Destinations</h1>
+    <button onclick="location.href='{{ url_for('airline_staff.top_dest') }}';">Click to view top 3 destinations</button>
+    <h2>Last 3 months: {{ value1 }}</h2>
+    <br>
+    <h2>Last year: {{ value2 }}</h2>>
+    <hr>
+<form method="post" action="{{ url_for('airline_staff.logout') }}">
+    <input type="submit" value="Logout">
+
+
 </body>
 </html>
+<script>
+    function change_type(t){
+        if (t === "other") {
+            document.getElementById("time4").hidden = false;
+            document.getElementById("from_date4").hidden = false;
+            document.getElementById("from_date4").disabled = false;
+            document.getElementById("to_date4").hidden = false;
+            document.getElementById("to_date4").disabled = false;
+        }
+        else{
+            document.getElementById("time4").hidden = true;
+            document.getElementById("from_date4").hidden = true;
+            document.getElementById("from_date4").disabled = true;
+            document.getElementById("to_date4").hidden = true;
+            document.getElementById("to_date4").disabled = true;
+        }
+    }
+
+
+
+
+</script>

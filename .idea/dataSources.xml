@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="flaskr" uuid="eadf1c51-c9d4-4aa2-9b3e-832cb6dea068">
+    <data-source source="LOCAL" name="flaskr" uuid="1fdf844b-2865-4382-b7c3-8ff5ed5205ab">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\丁鹏云\Desktop\project_db\instance\flaskr.sqlite</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\丁鹏云\Desktop\airline_system_dbf2019\instance\flaskr.sqlite</jdbc-url>
       <libraries>
         <library>
           <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
