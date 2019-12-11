@@ -8,25 +8,26 @@
 <h1>{{ g.user['email']}}</h1>
 
 <br>
+<form method="post" action="{{ url_for('airline_staff.view_my_flights') }}">
     <h1>View Flights</h1>
     <label for="airline_name1">Airline Name</label>
-    <input id="airline_name1" type="text" value= "{{ g.user['airline_name'] }}" readonly="true" >
+    <input id="airline_name1" name="airline_name" type="text" value= "{{ g.user['airline_name'] }}" readonly="true" >
     <label for="from_date1" >From</label>
-    <input id="from_date1" type="date">
+    <input id="from_date1" name="from_date" type="date">
     <label for="to_date1">To</label>
-    <input id="to_date1" type="date">
+    <input id="to_date1" name="to_date" type="date">
     <br><br>
     <label for="departure_airport1">Departure Airport</label>
-    <input id="departure_airport1" type="text" >
+    <input id="departure_airport1" name="departure_airport" type="text" >
     <label for="departure_city1">Departure City</label>
-    <input id="departure_city1" type="text">
+    <input id="departure_city1" name="departure_city" type="text">
     <br><br>
     <label for="arrival_airport1">Arrival Airport</label>
-    <input id="arrival_airport1" type="text">
+    <input id="arrival_airport1" name="arrival_airport" type="text">
     <label for="arrival_city1">Arrival City</label>
-    <input id="arrival_city1" type="text">
+    <input id="arrival_city1" name="arrival_city" type="text">
     <br>
     <br>
-    <button onclick=view_my_flights()>Click to view flights</button>
+    <input type="submit" value="Click to view flights">
 </body>
 </html>
