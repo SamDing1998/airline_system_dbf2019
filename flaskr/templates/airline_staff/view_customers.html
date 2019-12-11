@@ -2,7 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>View Customer</title>
+    <h>Most Frequent Customer</h>
+    <table border="1">
+      <tr>
+          <th>Customer E-mail</th>
+          <th>Customer Name</th>
+      </tr>
+        {% for a in cust %}
+            <tr>
+                <th>{{ a['email'] }}</th>
+                <th>{{ a['name'] }}</th>
+            </tr>
+        {% endfor %}
+    </table>
+    <br><br><br>
+        <h>Your Searched Customer's Flights in Our Airline</h>
+    <table border="1">
+      <tr>
+          <th>Flight Number</th>
+          <th>Departure Time</th>
+      </tr>
+        {% for b in result %}
+            <tr>
+                <th>{{ b['flight_num'] }}</th>
+                <th>{{ b['departure_time'] }}</th>
+            </tr>
+        {% endfor %}
+    </table>
 </head>
 <body>
 

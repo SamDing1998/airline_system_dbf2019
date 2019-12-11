@@ -37,6 +37,11 @@
 </form>
 <form method="post" action="{{ url_for('airline_staff.view_customers') }}">
     <h1>View The Most Frequent Customer</h1>
+    <label for="airline_name">Airline Name</label>
+        <input id="airline_name" name="airline_name" type="text" value= "{{ g.user['airline_name'] }}" readonly="true" >
+        <label for="cust_email">Customer E-mail</label>
+        <input id="cust_email" name="cust_email" type="text" >
+        <br><br>
     <input type="submit" value="Click to view customer">
 </form>
 </body>

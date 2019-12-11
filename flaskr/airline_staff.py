@@ -85,15 +85,15 @@ def view_customers():
                       "group by email))",
                       (airline_name, to_date, from_date, airline_name, to_date, from_date))
     if cust_email:
-        search = db.execute("select distinct Flight.flight_num, Flight.departure_time from "
-                            "Customer natural join purchases natural join Ticket inner join Flight "
+        result = db.execute("select distinct Flight.flight_num, Flight.departure_time from "
+                            "Customer natural join purchases natural join Ticket join Flight "
                             "on Ticket.flight_num=Flight.flight_num "
                             "and Ticket.airline_name=Flight.airline_name "
                             "where Flight.airline_name=? and email=?", (airline_name, cust_email))
     else:
-        search = []
+        result = []
 
-    return render_template('view_cust.html', cust=cust, search=search)
+    return render_template('airline_staff/view_customers.html', cust=cust, result=result)
 
 
 
