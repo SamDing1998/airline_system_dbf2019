@@ -141,7 +141,6 @@ def login():
                 session['type'] = type
                 g.user = user
                 session['key'] = user['email']
-                print(g.user['email'])
                 return render_template('airline_staff.html')
 
         flash(error)
@@ -151,14 +150,15 @@ def login():
 
 @bp.before_app_request
 def load_logged_in_user():
-    user_id = session.get('user_id')
-
-    if user_id is None:
+    key = session.get('key')
+    type = session.get('type')
+    if key is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM airline_staff WHERE username = ?', (user_id,)
-        ).fetchone()
+        if type == 'Airline Staff':
+            g.user = get_db().execute(
+                'SELECT * FROM airline_staff WHERE username = ?', (key,)
+            ).fetchone()
 
 
 @bp.route('/logout')
