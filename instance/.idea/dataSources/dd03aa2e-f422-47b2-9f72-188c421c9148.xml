@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="flaskr">
+  <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.16">
+    <root id="1">
+      <ServerVersion>3.25.1</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="main">
+      <Current>1</Current>
+    </schema>
+    <collation id="3" parent="1" name="BINARY"/>
+    <collation id="4" parent="1" name="NOCASE"/>
+    <collation id="5" parent="1" name="RTRIM"/>
+    <table id="6" parent="2" name="airline"/>
+    <table id="7" parent="2" name="airline_staff"/>
+    <table id="8" parent="2" name="airplane"/>
+    <table id="9" parent="2" name="airport"/>
+    <table id="10" parent="2" name="booking_agent"/>
+    <table id="11" parent="2" name="customer"/>
+    <table id="12" parent="2" name="flight"/>
+    <table id="13" parent="2" name="purchases"/>
+    <table id="14" parent="2" name="sqlite_master">
+      <System>1</System>
+    </table>
+    <table id="15" parent="2" name="ticket"/>
+    <column id="16" parent="6" name="airline_name">
+      <Position>1</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="17" parent="6" name="sqlite_autoindex_airline_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>airline_name</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="18" parent="6">
+      <ColNames>airline_name</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_airline_1</UnderlyingIndexName>
+    </key>
+    <column id="19" parent="7" name="username">
+      <Position>1</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="20" parent="7" name="password">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="21" parent="7" name="first_name">
+      <Position>3</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="22" parent="7" name="last_name">
+      <Position>4</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="23" parent="7" name="date_of_birth">
+      <Position>5</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="24" parent="7" name="airline_name">
+      <Position>6</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="25" parent="7" name="sqlite_autoindex_airline_staff_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>username</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="26" parent="7">
+      <ColNames>username</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_airline_staff_1</UnderlyingIndexName>
+    </key>
+    <foreign-key id="27" parent="7">
+      <ColNames>airline_name</ColNames>
+      <RefTableName>airline</RefTableName>
+      <RefColNames>airline_name</RefColNames>
+    </foreign-key>
+    <column id="28" parent="8" name="airline_name">
+      <Position>1</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="29" parent="8" name="airplane_id">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="30" parent="8" name="seats">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="31" parent="8" name="sqlite_autoindex_airplane_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>airline_name
+airplane_id</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="32" parent="8">
+      <ColNames>airline_name
+airplane_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_airplane_1</UnderlyingIndexName>
+    </key>
+    <foreign-key id="33" parent="8">
+      <ColNames>airline_name</ColNames>
+      <RefTableName>airline</RefTableName>
+      <RefColNames>airline_name</RefColNames>
+    </foreign-key>
+    <column id="34" parent="9" name="airport_name">
+      <Position>1</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="35" parent="9" name="airport_city">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="36" parent="9" name="sqlite_autoindex_airport_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>airport_name</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="37" parent="9">
+      <ColNames>airport_name</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_airport_1</UnderlyingIndexName>
+    </key>
+    <column id="38" parent="10" name="email">
+      <Position>1</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="39" parent="10" name="password">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="40" parent="10" name="booking_agent_id">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="41" parent="10" name="sqlite_autoindex_booking_agent_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>email</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="42" parent="10">
+      <ColNames>email</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_booking_agent_1</UnderlyingIndexName>
+    </key>
+    <column id="43" parent="11" name="email">
+      <Position>1</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="44" parent="11" name="name">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="45" parent="11" name="password">
+      <Position>3</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="46" parent="11" name="building_number">
+      <Position>4</Position>
+      <DataType>varchar(30)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="47" parent="11" name="street">
+      <Position>5</Position>
+      <DataType>varchar(30)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="48" parent="11" name="city">
+      <Position>6</Position>
+      <DataType>varchar(30)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="49" parent="11" name="state">
+      <Position>7</Position>
+      <DataType>varchar(30)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="50" parent="11" name="phone_number">
+      <Position>8</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="51" parent="11" name="passport_number">
+      <Position>9</Position>
+      <DataType>varchar(30)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="52" parent="11" name="passport_expiration">
+      <Position>10</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="53" parent="11" name="passport_country">
+      <Position>11</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="54" parent="11" name="date_of_birth">
+      <Position>12</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="55" parent="11" name="sqlite_autoindex_customer_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>email</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="56" parent="11">
+      <ColNames>email</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_customer_1</UnderlyingIndexName>
+    </key>
+    <column id="57" parent="12" name="airline_name">
+      <Position>1</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="58" parent="12" name="flight_num">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="59" parent="12" name="departure_airport">
+      <Position>3</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="60" parent="12" name="departure_time">
+      <Position>4</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="61" parent="12" name="arrival_airport">
+      <Position>5</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="62" parent="12" name="arrival_time">
+      <Position>6</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="63" parent="12" name="price">
+      <Position>7</Position>
+      <DataType>decimal(10)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="64" parent="12" name="status">
+      <Position>8</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="65" parent="12" name="airplane_id">
+      <Position>9</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="66" parent="12" name="sqlite_autoindex_flight_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>airline_name
+flight_num</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="67" parent="12">
+      <ColNames>airline_name
+flight_num</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_flight_1</UnderlyingIndexName>
+    </key>
+    <foreign-key id="68" parent="12">
+      <ColNames>airline_name
+airplane_id</ColNames>
+      <RefTableName>airplane</RefTableName>
+      <RefColNames>airline_name
+airplane_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="69" parent="12">
+      <ColNames>departure_airport</ColNames>
+      <RefTableName>airport</RefTableName>
+      <RefColNames>airport_name</RefColNames>
+    </foreign-key>
+    <foreign-key id="70" parent="12">
+      <ColNames>arrival_airport</ColNames>
+      <RefTableName>airport</RefTableName>
+      <RefColNames>airport_name</RefColNames>
+    </foreign-key>
+    <column id="71" parent="13" name="ticket_id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="72" parent="13" name="customer_email">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="73" parent="13" name="booking_agent_id">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+    </column>
+    <column id="74" parent="13" name="purchase_date">
+      <Position>4</Position>
+      <DataType>date|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="75" parent="13" name="sqlite_autoindex_purchases_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ticket_id
+customer_email</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="76" parent="13">
+      <ColNames>ticket_id
+customer_email</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_purchases_1</UnderlyingIndexName>
+    </key>
+    <foreign-key id="77" parent="13">
+      <ColNames>ticket_id</ColNames>
+      <RefTableName>ticket</RefTableName>
+      <RefColNames>ticket_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="78" parent="13">
+      <ColNames>customer_email</ColNames>
+      <RefTableName>customer</RefTableName>
+      <RefColNames>email</RefColNames>
+    </foreign-key>
+    <column id="79" parent="14" name="type">
+      <Position>1</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="80" parent="14" name="name">
+      <Position>2</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="81" parent="14" name="tbl_name">
+      <Position>3</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="82" parent="14" name="rootpage">
+      <Position>4</Position>
+      <DataType>int|0s</DataType>
+    </column>
+    <column id="83" parent="14" name="sql">
+      <Position>5</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="84" parent="15" name="ticket_id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="85" parent="15" name="airline_name">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="86" parent="15" name="flight_num">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="87" parent="15" name="sqlite_autoindex_ticket_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ticket_id</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="88" parent="15">
+      <ColNames>ticket_id</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_ticket_1</UnderlyingIndexName>
+    </key>
+    <foreign-key id="89" parent="15">
+      <ColNames>airline_name
+flight_num</ColNames>
+      <RefTableName>flight</RefTableName>
+      <RefColNames>airline_name
+flight_num</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>

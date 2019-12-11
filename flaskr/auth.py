@@ -89,11 +89,13 @@ def register():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
+        # init
         username = request.form['username']
         password = request.form['password']
-        type = request.form['type']
+        usertype = request.form['type']
         db = get_db()
         error = None
+
         if type == 'Airline Staff':
             user = db.execute(
                 'SELECT * FROM airline_staff WHERE username = ?', (username,)
@@ -109,7 +111,7 @@ def login():
                 session['type'] = type
                 g.user = user
                 session['key'] = user['username']
-                return render_template('airline_stuff')
+                return render_template('airline_staff.html')
         elif type == 'Customer':
             user = db.execute(
                 'SELECT * FROM customer WHERE email = ?', (username,)
@@ -171,6 +173,17 @@ def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
+
+
+def login_required_customer(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None or g.type != 'customer':
             return redirect(url_for('auth.login'))
 
         return view(**kwargs)
