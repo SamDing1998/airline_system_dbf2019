@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script>
+window.onload = function() {
+
+let chart1 = new CanvasJS.Chart("chartContainer1", {
+	animationEnabled: true,
+	title: {
+		text: "Direct Revenue vs Indirect Revenue-Last Year"
+	},
+	data: [{
+		type: "pie",
+		startAngle: 240,
+		indexLabel: "{label}",
+		dataPoints: [
+			{y: {{ last_year_direct }}, label: "Direct"},
+            {y: {{ last_year_indirect }}, label: "Indirect"}
+		]
+	}]
+});
+chart1.render();
+
+let chart2 = new CanvasJS.Chart("chartContainer2", {
+	animationEnabled: true,
+	title: {
+		text: "Direct Revenue vs Indirect Revenue-Last Month"
+	},
+	data: [{
+		type: "pie",
+		startAngle: 240,
+		indexLabel: "{label}",
+		dataPoints: [
+			{y: {{ last_month_direct }}, label: "Direct"},
+            {y: {{ last_month_indirect }}, label: "Indirect"}
+		]
+	}]
+});
+chart2.render();
+
+}
+</script>
+</head>
+<body>
+<div id="chartContainer1" style="height: 300px; width: 100%;"></div>
+<div id="chartContainer2" style="height: 300px; width: 100%;"></div>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
