@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>{{ g.user['email']}}</h1>
+
+<br>
+    <h1>View Flights</h1>
+    <label for="airline_name1">Airline Name</label>
+    <input id="airline_name1" type="text" value= "{{ g.user['airline_name'] }}" readonly="true" >
+    <label for="from_date1" >From</label>
+    <input id="from_date1" type="date">
+    <label for="to_date1">To</label>
+    <input id="to_date1" type="date">
+    <br><br>
+    <label for="departure_airport1">Departure Airport</label>
+    <input id="departure_airport1" type="text" >
+    <label for="departure_city1">Departure City</label>
+    <input id="departure_city1" type="text">
+    <br><br>
+    <label for="arrival_airport1">Arrival Airport</label>
+    <input id="arrival_airport1" type="text">
+    <label for="arrival_city1">Arrival City</label>
+    <input id="arrival_city1" type="text">
+    <br>
+    <br>
+    <button onclick=view_my_flights()>Click to view flights</button>
+</body>
+</html>

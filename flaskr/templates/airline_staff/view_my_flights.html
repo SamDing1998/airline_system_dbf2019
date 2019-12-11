@@ -2,9 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Flights</title>
 </head>
 <body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Flights</title>
+    <table border="1">
+      <tr>
+          <th>Airplane</th>
+          <th>Flight Number</th>
+          <th>Airline</th>
+          <th>Departure Time</th>
+          <th>Arrive Time</th>
+          <th>Departure Airport</th>
+          <th>Departure City</th>
+          <th>Arrive Airport</th>
+          <th>Arrive City</th>
+          <th>Price</th>
+          <th>Flight Status</th>
+
+      </tr>
+        {% for d in my_flight %}
+            <tr>
+                <th>{{ d['airplane_id'] }}</th>
+                <th>{{ d['flight_num'] }}</th>
+                <th>{{ d['airline_name'] }}</th>
+                <th>{{ d['departure_time'] }}</th>
+                <th>{{ d['arrival_time'] }}</th>
+                <th>{{ d['departure_airport'] }}</th>
+                <th>{{ d['depart_city'] }}</th>
+                <th>{{ d['arrival_airport'] }}</th>
+                <th>{{ d['arrival_city'] }}</th>
+                <th>{{ d['price'] }}</th>
+                <th>{{ d['status'] }}</th>
+            </tr>
+        {% endfor %}
+    </table>
+
 
 </body>
 </html>

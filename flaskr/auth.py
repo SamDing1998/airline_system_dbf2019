@@ -109,7 +109,7 @@ def login():
                 session['type'] = type
                 g.user = user
                 session['key'] = user['username']
-                return render_template('airline_stuff')
+                return redirect(url_for("airline_staff.home"))
         elif type == 'Customer':
             user = db.execute(
                 'SELECT * FROM customer WHERE email = ?', (username,)
