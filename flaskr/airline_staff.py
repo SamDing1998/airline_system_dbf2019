@@ -36,7 +36,7 @@ def view_my_flights():
                                "JOIN (SELECT airport_name, airport_city as arrival_city FROM airport) A2 "
                                "ON arrival_airport=A2.airport_name where airline_name=? and departure_airport LIKE ? "
                                "AND departure_city LIKE ? AND arrival_airport LIKE ? AND arrival_city LIKE ? "
-                               "AND departure_time between ? and  ?",
+                               "AND departure_time between ? and ?",
                                (airline_name, departure_airport, departure_city, arrival_airport, arrival_city, from_date, to_date))
         return render_template('airline_staff/view_my_flights.html', my_flight=my_flight)
     return render_template('airline_staff/airline_staff.html')

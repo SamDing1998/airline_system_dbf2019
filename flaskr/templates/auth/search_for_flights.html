@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Home Page</title>
+</head>
+<body>
+<h1>Search For Flights</h1>
+<br>
+
+<!-- View all customer's flights -->
+<form method="post" action="{{url_for('public.search_result')}}">
+    <label for="departure_city">Departure City</label>
+    <input id="departure_city" name="departure_city" type="text" >
+    <label for="arrival_city" >Arrical City</label>
+    <input id="arrival_city" name="arrival_city" type="text">
+    <label for="departure_airport">Departure City</label>
+    <input id="departure_airport" name="departure_airport" type="text">
+    <label for="arrival_airport">Arrival City</label>
+    <input id="arrival_airport" name="arrival_airport" type="text">
+    <label for="begin_date">Departure Date from</label>
+    <input id="begin_date" name="begin_date" type="date">
+    <label for="end_date">Departure Date to</label>
+    <input id="end_date" name="end_date" type="date">
+    <br>
+    <br>
+    <input type="submit" value="Search for Flights">
+</form>
+
+
+
+</body>
+</html>

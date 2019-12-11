@@ -96,7 +96,7 @@ def login():
         db = get_db()
         error = None
 
-        if type == 'Airline Staff':
+        if usertype == 'Airline Staff':
             user = db.execute(
                 'SELECT * FROM airline_staff WHERE username = ?', (username,)
             ).fetchone()
@@ -110,11 +110,12 @@ def login():
                 session.clear()
                 session['type'] = type
                 g.user = user
+                g.type = 'staff'
                 session['key'] = user['username']
                 return redirect(url_for("airline_staff.home"))
-        elif type == 'Customer':
+        elif usertype == 'Customer':
             user = db.execute(
-                'SELECT * FROM customer WHERE email = ?', (username,)
+                'SELECT * FROM customer WHERE email = ?', (username)
             ).fetchone()
 
             if user is None:
@@ -124,10 +125,11 @@ def login():
 
             if error is None:
                 session.clear()
-                session['type'] = type
+                session['type'] = usertype
                 g.user = user
+                g.type = 'customer'
                 session['key'] = user['email']
-                return redirect(url_for('index'))  # change
+                return redirect(url_for('customer.home'))  # change
         else:
             user = db.execute(
                 'SELECT * FROM booking_agent WHERE email = ?', (username,)
@@ -140,10 +142,11 @@ def login():
 
             if error is None:
                 session.clear()
-                session['type'] = type
+                session['type'] = usertype
                 g.user = user
+                g.type = 'agent'
                 session['key'] = user['email']
-                return render_template('airline_staff.html')
+                return render_template('booking_agent.html')
 
         flash(error)
 
@@ -174,9 +177,7 @@ def login_required(view):
     def wrapped_view(**kwargs):
         if g.user is None:
             return redirect(url_for('auth.login'))
-
         return view(**kwargs)
-
     return wrapped_view
 
 
@@ -185,7 +186,14 @@ def login_required_customer(view):
     def wrapped_view(**kwargs):
         if g.user is None or g.type != 'customer':
             return redirect(url_for('auth.login'))
-
         return view(**kwargs)
+    return wrapped_view
 
+
+def login_required_agent(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None or g.type != 'agent':
+            return redirect(url_for('auth.login'))
+        return view(**kwargs)
     return wrapped_view
