@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Agents</title>
+    <h1>Agents ranking based on ticket numbers last month</h1>
+    <table border="1">
+      <tr>
+          <th>Booking Agent</th>
+          <th>Count</th>
+      </tr>
+        {% for a in ticket_num_month %}
+        <tr>
+          <th>{{ a['booking_agent'] }}</th>
+          <th>{{ a['count'] }}</th>
+      </tr>
+    {% endfor %}
+    </table>
+    <br>
+    <h1>Agents ranking based on ticket numbers last year</h1>
+    <table border="1">
+      <tr>
+          <th>Booking Agent</th>
+          <th>Count</th>
+      </tr>
+        {% for b in ticket_num_year %}
+        <tr>
+          <th>{{ b['booking_agent'] }}</th>
+          <th>{{ b['count'] }}</th>
+      </tr>
+      {% endfor %}
+    </table>
+    <br>
+    <h1>Agents ranking based on commission  last year</h1>
+    <table border="1">
+      <tr>
+          <th>Booking Agent</th>
+          <th>Commission</th>
+      </tr>
+        {% for c in commission %}
+        <tr>
+          <th>{{ c['booking_agent'] }}</th>
+          <th>{{ c['total_commission'] }}</th>
+      </tr>
+      {% endfor %}
+    </table>
+    <br>
+</head>
+<body>
+
+</body>
+</html>
