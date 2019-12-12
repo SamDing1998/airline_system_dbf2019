@@ -10,6 +10,7 @@ from dateutil.relativedelta import relativedelta
 
 public_bp = Blueprint("public", __name__, url_prefix="/search")
 
+
 @public_bp.route('/search', methods=('POST', 'GET'))
 def search():
     return render_template('./auth/search_for_flights.html')
@@ -47,7 +48,7 @@ def search_result():
                                "JOIN (SELECT airport_name, airport_city as arrival_city FROM airport) A2 "
                                "ON arrival_airport=A2.airport_name where departure_airport LIKE ? "
                                "AND departure_city LIKE ? AND arrival_airport LIKE ? AND arrival_city LIKE ? "
-                               "AND departure_time between ? and ?",
+                               "AND departure_time BETWEEN ? and ?",
                                (departure_airport, departure_city, arrival_airport, arrival_city, begin_date, end_date)).fetchall()
 
         return render_template('auth/search_result.html', result_flights=result_flights)
@@ -57,7 +58,7 @@ def search_result():
 @public_bp.route('/purchase', methods=('POST', 'GET'))
 
 def purchase():
-    flight_num = request.args["flight_number"]
+    flight_num = request.args["flight_num"]
     airline_name = request.args["airline_name"]
     
     db = get_db()
@@ -69,7 +70,7 @@ def purchase():
 
     # GET
     if request.method == 'GET':
-        return render_template('./auth/make_purchase.html', target_flight=target_flight)
+        return render_template('./auth/purchase.html', target_flight=target_flight)
 
     # POST
     if request.method == "POST":
@@ -78,17 +79,18 @@ def purchase():
         # necessary info
         ticket_id = random.randint(1, 1e7)
         customer_email = g.user["email"] if g.type == "customer" else request.form["customer_email"]
-        purchase_date = datetime.date.today()
+
+        purchase_date = str(datetime.now())
 
         if error:
             print("error:", error)
             flash(error)
             return render_template('./auth/purchase.html', target_flight=target_flight)
         
-        if not db.execute("SELECT * FROM customer WHERE email=?", (customer_email)).fetchone():
+        if not db.execute("SELECT * FROM customer WHERE email=?", (customer_email,)).fetchone():
             error = "Customer does not exist."
         
-        if g.type != "booking_agent":
+        if g.type != "agent":
             booking_agent_id = None
         else:
             booking_agent_id = g.user["booking_agent_id"]
@@ -99,5 +101,5 @@ def purchase():
                    '(?, ?, ?, ?)', (ticket_id, customer_email, booking_agent_id, purchase_date))
         db.commit()
 
-        print("Purchase POST finished")
+        flash('Purchase Success')
         return redirect(url_for('public.search'))

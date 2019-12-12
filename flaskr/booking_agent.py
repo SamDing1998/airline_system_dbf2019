@@ -57,40 +57,58 @@ def view_my_flights():
 
 
 
-@agent_bp.route("/view_top_customers")
+@agent_bp.route("/view_top_customers", methods=('POST', 'GET'))
 @login_required_agent
 def view_top_customers():
     if request.method == "POST":
         # values
-        agent_email = g.user['email']
+        booking_agent_id= g.user['booking_agent_id']
         now = str(datetime.now())
         num_top_begin = str(datetime.now() - relativedelta(months=6))
         sum_top_begin = str(datetime.now() - relativedelta(years=1))
 
+        print(1)
+        print(1)
+        print(now)
+        print(num_top_begin)
+        print(sum_top_begin)
+        print(agent_email)
+
         # get reference to database
         db = get_db()
 
-        num_tops = db.execute("SELECT cust_email, COUNT(*) as num FROM purchases WHERE booking_agent_id=? "
+        num_tops = db.execute("SELECT customer_email, COUNT(*) as num FROM purchases WHERE booking_agent_id= ? "
                                 "AND purchase_date BETWEEN ? AND ?"
-                                "GROUP BY cust_email ORDER BY num DESC LIMIT 5",
-                                (agent_email, npm_top_begin, now))
-        
-        sum_tops = db.execute("SELECT email, SUM( price * 0.1) as comm_sum " 
-                                "FROM (purchase NATURAL JOIN ticket) as P, flight as F "
-                                "WHERE booking_agent=? "
-                                "AND P.flight_num = F.flight_num"
-                                "AND purchase_date_time BETWEEN ? AND ? "
-                                "GROUP BY email ORDER BY comm_sum DESC LIMIT 5",
-                                (agent_email, npm_top_begin, now))
+                                "GROUP BY customer_email ORDER BY num DESC LIMIT 5",
+                                (booking_agent_id, num_top_begin, now)).fetchall()
+        print(g.user['booking_agent_id'], num_tops)
 
+        sum_tops = db.execute("SELECT customer_email, SUM( price * 0.1) as comm_sum " 
+                                "FROM (purchases NATURAL JOIN ticket) as P, flight as F "
+                                "WHERE booking_agent_id = ? "
+                                "AND P.flight_num = F.flight_num "
+                                "AND purchase_date BETWEEN ? AND ? "
+                                "GROUP BY customer_email ORDER BY comm_sum DESC LIMIT 5",
+                                (booking_agent_id, sum_top_begin, now)).fetchall()
 
         num_tops_list = []
         sum_tops_list = []
 
+        print(1)
+        print(1)
+        print(num_tops)
+        print(1)        
+        print(1)
+
         idx = 1
         for row in num_tops:
             d = {}
+<<<<<<< HEAD
             d["email"] = row["email"]
+=======
+            d["email"] = row["customer_email"]
+>>>>>>> d367fe56ebbff420a149b1f5e7f25f24e1d8057d
+            print(d['email'])
             d["count"] = row["num"]
             d["index"] = idx
             num_tops_list.append(d)
@@ -99,17 +117,24 @@ def view_top_customers():
         idx = 1
         for row in sum_tops:
             d = {}
-            d["email"] = row["email"]
+            d["email"] = row["customer_email"]
             d["sum"] = row["comm_sum"]
             d["index"] = idx
             sum_tops_list.append(d)
             idx += 1
-
-        return render_template("view_top_customers.html", num_tops_list=num_tops_list, sum_tops_list=sum_tops_list)
-
+        print(num_tops_list, sum_tops_list)
 
 
-@agent_bp.route("/view_my_commissions")
+        return render_template("./booking_agent/view_top_customers.html", num_tops_list=num_tops_list, sum_tops_list=sum_tops_list)
+    return render_template('./booking_agent/booking_agent.html')
+
+
+
+<<<<<<< HEAD
+@agent_bp.route("/view_my_commissions", methods=('GET', 'POST'))
+=======
+@agent_bp.route("/view_my_commissions", methods=("POST", "GET"))
+>>>>>>> d367fe56ebbff420a149b1f5e7f25f24e1d8057d
 @login_required_agent
 def view_my_commissions():
     if request.method == "POST":
@@ -151,6 +176,6 @@ def view_my_commissions():
                                     (g.user["booking_agent_id"], begin_date, end_date)).fetchone()['c']
         
 
-        return render_template('./booking_agent/view_my_commission.html', total_commission=total_commission, average_commission=average_commission, sold_ticket_num=sold_ticket_num)
+        return render_template('./booking_agent/view_my_commissions.html', total_commission=total_commission, average_commission=average_commission, sold_ticket_num=sold_ticket_num)
     return render_template('./booking_agent/booking_agent.html')
     
