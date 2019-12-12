@@ -89,7 +89,7 @@ def purchase():
         if not db.execute("SELECT * FROM customer WHERE email=?", (customer_email,)).fetchone():
             error = "Customer does not exist."
         
-        if g.type != "booking_agent":
+        if g.type != "agent":
             booking_agent_id = None
         else:
             booking_agent_id = g.user["booking_agent_id"]

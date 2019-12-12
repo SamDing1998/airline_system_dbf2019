@@ -68,7 +68,7 @@ def view_my_flights():
 
 
 
-@customer_bp.route("/track_my_spending")
+@customer_bp.route("/track_my_spending", methods=("GET", "POST"))
 @login_required_customer
 def track_my_spending():
     if request.method == "POST":
@@ -98,15 +98,14 @@ def track_my_spending():
             flash("Invalid Date: Begin date > End date")
             return redirect(url_for("customer.home"))
 
-        monthly_spending = db.execute("SELECT strftime('%Y', purchase_date) AS year, strftime('%m', purchase_date) AS month, SUM(price) AS sum ",
-                                "FROM ( ticket NATURAL JOIN purchases NATURAL JOIN flight) as T ",
-                                "WHERE customer_email = ? AND purchase_time BETWEEN ? AND ? ",
-                                "GROUP BY year, month",
+        monthly_spending = db.execute("SELECT strftime('%Y', purchase_date) AS year, strftime('%m', purchase_date) AS month, "
+                                      "SUM(price) AS sum FROM ( ticket NATURAL JOIN purchases NATURAL JOIN flight) as T "
+                                      "WHERE customer_email = ? AND purchase_date BETWEEN ? AND ? GROUP BY year, month",
                                (g.user["email"], begin_date, end_date)).fetchall()
 
         total_spending = db.execute("SELECT SUM(price) as s "
                                     "FROM ticket NATURAL JOIN purchases NATURAL JOIN flight "
-                                    "WHERE email = ? AND purchase_date BETWEEN ? AND ? ",
+                                    "WHERE customer_email = ? AND purchase_date BETWEEN ? AND ? ",
                                     (g.user["email"], sum_begin_date, end_date)).fetchone()['s']
 
         existing_spends = {}
@@ -114,7 +113,7 @@ def track_my_spending():
             existing_spends[( int(row["year"]), int(row["month"]) )] = int(row["sum"])
 
         # spending data for ChartJS with complete timeline
-        spending_chart_data = {}
+        spending_chart_data = []
         idx = 1
 
         # parse to int values
@@ -145,9 +144,8 @@ def track_my_spending():
                     dp["sum"] = 0
                 dp["idx"] = idx
                 #spending_chart_data.append(dp)
-                spending_chart_data.update(dp)
+                spending_chart_data.append(dp)
                 idx += 1
-
         return render_template('customer/track_my_spending.html', spending_chart_data=spending_chart_data, dp_num=idx, total_spending=total_spending)
     return render_template('customer/customer.html')
 
