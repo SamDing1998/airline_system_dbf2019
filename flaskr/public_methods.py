@@ -1,9 +1,8 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from flaskr.authentication import login_required
 
-from flaskr.database import get_db
+from flaskr.db import get_db
 
 import random
 from datetime import datetime
@@ -40,7 +39,7 @@ def search_result():
 
         if begin_date > end_date:
             flash("Invalid Date: Begin date > End date")
-            return redirect(url_for(public.search))
+            return redirect(url_for("public.search"))
         
         result_flights = db.execute("select * from Flight JOIN "
                                "(SELECT airport_name, airport_city AS departure_city FROM airport) A1 "
@@ -51,12 +50,12 @@ def search_result():
                                "AND departure_time between ? and ?",
                                (departure_airport, departure_city, arrival_airport, arrival_city, begin_date, end_date)).fetchall()
 
-        return render_template('customer/search_result.html', result_flights=result_flights)
+        return render_template('auth/search_result.html', result_flights=result_flights)
     return render_template('auth/login.html')
 
 
 @public_bp.route('/purchase', methods=('POST', 'GET'))
-@login_required
+
 def purchase():
     flight_num = request.args["flight_number"]
     airline_name = request.args["airline_name"]
@@ -96,8 +95,8 @@ def purchase():
 
         db.execute('INSERT INTO Ticket (ticket_id, airline_name, flight_num) VALUES '
                    '(?, ?, ?)', (ticket_id, airline_name, flight_num))
-        db.execute('INSERT INTO Purchase (ticket_id, customer_email, booking_agent_id, purchase_date) VALUES '
-                   '(?, ?, ?, ?)', (ticket_id, customer_email, booking_agent_email, purchase_date))
+        db.execute('INSERT INTO purchases (ticket_id, customer_email, booking_agent_id, purchase_date) VALUES '
+                   '(?, ?, ?, ?)', (ticket_id, customer_email, booking_agent_id, purchase_date))
         db.commit()
 
         print("Purchase POST finished")
