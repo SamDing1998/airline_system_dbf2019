@@ -1,9 +1,9 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from flaskr.authentication import login_required
+from flaskr.auth import login_required
 
-from flaskr.database import get_db
+from flaskr.db import get_db
 
 import random
 from datetime import datetime
@@ -40,7 +40,7 @@ def search_result():
 
         if begin_date > end_date:
             flash("Invalid Date: Begin date > End date")
-            return redirect(url_for(public.search))
+            return redirect(url_for("public.search"))
         
         result_flights = db.execute("select * from Flight JOIN "
                                "(SELECT airport_name, airport_city AS departure_city FROM airport) A1 "
@@ -97,7 +97,7 @@ def purchase():
         db.execute('INSERT INTO Ticket (ticket_id, airline_name, flight_num) VALUES '
                    '(?, ?, ?)', (ticket_id, airline_name, flight_num))
         db.execute('INSERT INTO Purchase (ticket_id, customer_email, booking_agent_id, purchase_date) VALUES '
-                   '(?, ?, ?, ?)', (ticket_id, customer_email, booking_agent_email, purchase_date))
+                   '(?, ?, ?, ?)', (ticket_id, customer_email, booking_agent_id, purchase_date))
         db.commit()
 
         print("Purchase POST finished")

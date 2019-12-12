@@ -73,7 +73,7 @@ def view_top_customers():
         num_tops = db.execute("SELECT cust_email, COUNT(*) as num FROM purchases WHERE booking_agent_id=? "
                                 "AND purchase_date BETWEEN ? AND ?"
                                 "GROUP BY cust_email ORDER BY num DESC LIMIT 5",
-                                (agent_email, npm_top_begin, now))
+                                (agent_email, num_top_begin, now))
         
         sum_tops = db.execute("SELECT email, SUM( price * 0.1) as comm_sum " 
                                 "FROM (purchase NATURAL JOIN ticket) as P, flight as F "
@@ -81,7 +81,7 @@ def view_top_customers():
                                 "AND P.flight_num = F.flight_num"
                                 "AND purchase_date_time BETWEEN ? AND ? "
                                 "GROUP BY email ORDER BY comm_sum DESC LIMIT 5",
-                                (agent_email, npm_top_begin, now))
+                                (agent_email, sum_top_begin, now))
 
 
         num_tops_list = []

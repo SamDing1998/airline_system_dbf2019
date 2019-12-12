@@ -93,7 +93,7 @@ def track_my_spending():
         total_spending = db.execute("SELECT SUM(price) as s "
                                     "FROM ticket NATURAL JOIN purchases NATURAL JOIN flight "
                                     "WHERE email = ? AND purchase_date BETWEEN ? AND ? ",
-                                    (g.user["email"], begin_date, end_date)).fetchone()['s']
+                                    (g.user["email"], sum_begin_date, end_date)).fetchone()['s']
 
         existing_spends = {}
         for row in monthly_spending:
@@ -130,13 +130,10 @@ def track_my_spending():
                 else:
                     dp["sum"] = 0
                 dp["idx"] = idx
-                spending_chart_data.append(dp)
+                #spending_chart_data.append(dp)
+                spending_chart_data.update(dp)
                 idx += 1
 
         return render_template('./customer/track_my_spending.html', spending_chart_data=spending_chart_data, dp_num=idx, total_spending=total_spending)
     return render_template('./customer/customer.html')
-
-
-
-
 
