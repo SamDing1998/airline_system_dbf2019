@@ -27,11 +27,11 @@ window.onload = function () {
         axisY2:{
             interlacedColor: "rgba(1,77,101,.2)",
             gridColor: "rgba(1,77,101,.1)",
-            title: "Number of Companies"
+            title: "Spending"
         },
         data: [{
             type: "bar",
-            name: "companies",
+            name: "spending data",
             axisYType: "secondary",
             color: "#014D65",
             dataPoints: [
@@ -39,8 +39,6 @@ window.onload = function () {
                     { x: {{ s['idx'] }}, y: {{s['sum']}}, label: '{{ s['year'] }}-{{ s['month'] }}' },
                 {% endfor %}
             ]
-
-            dataPoints: datalist
         }]
     });
     chart.render();
