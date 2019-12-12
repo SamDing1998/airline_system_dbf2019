@@ -47,7 +47,7 @@ def view_my_flights():
 @as_bp.route('/staff_home', methods=('GET', 'POST'))
 @login_required_staff
 def home():
-    return render_template('airline_staff/airline_staff.html')
+    return render_template('./airline_staff/airline_staff.html')
 
 
 @as_bp.route('/view_booking_agents', methods=('GET', 'POST'))
@@ -306,7 +306,7 @@ def compare_revenue():
                                   "WHERE purchase_date between ? and ? AND airline_name=? AND booking_agent_id is not NULL",
                                   (from_month, cur, g.user['airline_name'])).fetchone()["s"]
 
-    return render_template('compare_revenue.html', last_year_direct=last_year_direct, last_year_indirect=last_year_indirect, last_month_direct=last_month_direct, last_month_indirect=last_month_indirect)
+    return render_template('./airline_staff/compare_revenue.html', last_year_direct=last_year_direct, last_year_indirect=last_year_indirect, last_month_direct=last_month_direct, last_month_indirect=last_month_indirect)
 
 @as_bp.route('/logout', methods=('POST', 'GET'))
 @login_required_staff
@@ -335,11 +335,11 @@ def top_d():
                       "group by airport_city order by count(airport_city) desc limit 3", (to_date_year, from_date)).fetchall()
     y = []
     for i in year:
-        y.append(i['city'])
+        y.append(i['airport_city'])
     m = []
     for j in month:
-        m.append(j['city'])
-    return render_template('airline_staff.html', value1=m, value2=y)
+        m.append(j['airport_city'])
+    return render_template('./airline_staff/airline_staff.html', value1=m, value2=y)
 
 
 

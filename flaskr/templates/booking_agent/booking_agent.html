@@ -5,11 +5,11 @@
     <title>Booking Agent Home Page</title>
 </head>
 <body>
-<h1>{{ g.user['email']}}</h1>
+<h1>Hello, Agent {{ g.user['email']}}</h1>
 <br>
 
 <!-- View all NOTCUSTOMER's flights -->
-<form method="post" action="{{url_for('booking_agent.view_my_flights')}}">
+<form method="post" action="{{url_for('agent.view_my_flights')}}">
     <h1>View My Flights</h1>
     <label for="airline_name">Airline Name</label>
     <input id="airline_name" name="airline_name" type="text">
@@ -44,20 +44,30 @@
 </form>
 
 
-<!-- Search For Flights -->
-<button type="button" onclick="viewTopCustomers()" >View Top Customers</button>
+<h1>View Top Customers</h1>
+<form method="post" action="{{url_for('agent.view_top_customers')}}">
+    <input type="submit" value="View Top">
+</form>
 
+
+<br>
+<br>
+<!-- Search For Flights -->
+<!-- <button type="button" onclick="viewTopCustomers()" >View Top Customers</button> -->
+
+<br>
+<br>
 <!-- Search For Flights -->
 <button type="button" onclick="searchFlights()" >Search For Flights</button>
 
-<!-- Log Out -->>
+<br>
+<br>
+<!-- Log Out -->
 <button type="button" onclick="agentLogOut()" >Log Out</button>
 
 <script>
 
-function viewTopCustomers(){
-    location.href="{{url_for('agent.view_top_customers')}}";
-}
+
 
 function searchFlights(){
     location.href="{{url_for('public.search')}}";

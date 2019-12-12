@@ -108,14 +108,14 @@ def login():
 
             if error is None:
                 session.clear()
-                session['type'] = type
+                session['type'] = usertype
                 g.user = user
                 g.type = 'staff'
                 session['key'] = user['username']
                 return redirect(url_for("airline_staff.home"))
         elif usertype == 'Customer':
             user = db.execute(
-                'SELECT * FROM customer WHERE email = ?', (username)
+                'SELECT * FROM customer WHERE email = ?', (username,)
             ).fetchone()
 
             if user is None:
@@ -130,7 +130,7 @@ def login():
                 g.type = 'customer'
                 session['key'] = user['email']
                 return redirect(url_for('customer.home'))  # change
-        else:
+        elif usertype == 'Booking Agent':
             user = db.execute(
                 'SELECT * FROM booking_agent WHERE email = ?', (username,)
             ).fetchone()
@@ -146,7 +146,7 @@ def login():
                 g.user = user
                 g.type = 'agent'
                 session['key'] = user['email']
-                return render_template('booking_agent.html')
+                return render_template('./booking_agent/booking_agent.html')
 
         flash(error)
 
@@ -156,20 +156,31 @@ def login():
 @bp.before_app_request
 def load_logged_in_user():
     key = session.get('key')
-    type = session.get('type')
+    usertype = session.get('type')
     if key is None:
         g.user = None
     else:
-        if type == 'Airline Staff':
+        if usertype == 'Airline Staff':
             g.user = get_db().execute(
                 'SELECT * FROM airline_staff WHERE username = ?', (key,)
             ).fetchone()
+            g.type = "staff"
+        elif usertype == 'Customer':
+            g.user = get_db().execute(
+                'SELECT * FROM customer WHERE email = ?', (key,)
+            ).fetchone()
+            g.type = "customer"
+        elif usertype == 'Booking Agent':
+            g.user = get_db().execute(
+                'SELECT * FROM booking_agent WHERE email = ?', (key,)
+            ).fetchone()
+            g.type = "agent"
 
 
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('auth.login'))
 
 
 def login_required(view):
@@ -197,6 +208,7 @@ def login_required_agent(view):
             return redirect(url_for('auth.login'))
         return view(**kwargs)
     return wrapped_view
+
 
 def login_required_staff(view):
     @functools.wraps(view)

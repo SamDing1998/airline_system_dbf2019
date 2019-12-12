@@ -57,7 +57,7 @@ def view_my_flights():
 
 
 
-@agent_bp.route("/view_top_customers")
+@agent_bp.route("/view_top_customers", methods=('POST', 'GET'))
 @login_required_agent
 def view_top_customers():
     if request.method == "POST":
@@ -70,17 +70,17 @@ def view_top_customers():
         # get reference to database
         db = get_db()
 
-        num_tops = db.execute("SELECT cust_email, COUNT(*) as num FROM purchases WHERE booking_agent_id=? "
+        num_tops = db.execute("SELECT customer_email, COUNT(*) as num FROM purchases WHERE booking_agent_id=? "
                                 "AND purchase_date BETWEEN ? AND ?"
-                                "GROUP BY cust_email ORDER BY num DESC LIMIT 5",
+                                "GROUP BY customer_email ORDER BY num DESC LIMIT 5",
                                 (agent_email, num_top_begin, now))
         
-        sum_tops = db.execute("SELECT email, SUM( price * 0.1) as comm_sum " 
-                                "FROM (purchase NATURAL JOIN ticket) as P, flight as F "
-                                "WHERE booking_agent=? "
-                                "AND P.flight_num = F.flight_num"
-                                "AND purchase_date_time BETWEEN ? AND ? "
-                                "GROUP BY email ORDER BY comm_sum DESC LIMIT 5",
+        sum_tops = db.execute("SELECT customer_email, SUM( price * 0.1) as comm_sum " 
+                                "FROM (purchases NATURAL JOIN ticket) as P, flight as F "
+                                "WHERE booking_agent_id = ? "
+                                "AND P.flight_num = F.flight_num "
+                                "AND purchase_date BETWEEN ? AND ? "
+                                "GROUP BY customer_email ORDER BY comm_sum DESC LIMIT 5",
                                 (agent_email, sum_top_begin, now))
 
 
@@ -105,7 +105,8 @@ def view_top_customers():
             sum_tops_list.append(d)
             idx += 1
 
-        return render_template("view_top_customers.html", num_tops_list=num_tops_list, sum_tops_list=sum_tops_list)
+        return render_template("./booking_agent/view_top_customers.html", num_tops_list=num_tops_list, sum_tops_list=sum_tops_list)
+    return render_template('./booking_agent/booking_agent.html')
 
 
 

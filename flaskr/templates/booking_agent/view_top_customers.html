@@ -7,11 +7,11 @@
 </head>
 
 <body>
-    <div id="numChartContainer" style="height: 500px; width: 100%;"></div>
+    <div id="numChartContainer" style="height: 300px; width: 100%;"></div>
     <br>
     <br>
-    <div id="sumChartContainer" style="height: 500px; width: 100%;"></div>
-    <h2>You total spending in this period(Default is past 1 year) is: {{ total_spending }} in </h>
+    <div id="sumChartContainer" style="height: 300px; width: 100%;"></div>
+    <h2>You total spending in this period(Default is past 1 year) is: {{ total_spending }} </h>
 </body>
 
 <script type="text/javascript">
@@ -31,7 +31,7 @@
                 type: "column",  
                 showInLegend: true, 
                 legendMarkerColor: "grey",
-                //legendText: "MMbbl = one million barrels",
+                
                 dataPoints: [      
                     
                     {% for c in num_tops_list %}

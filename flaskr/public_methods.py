@@ -1,10 +1,6 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-<<<<<<< HEAD
-from flaskr.auth import login_required
-=======
->>>>>>> 5ae05581c1d1fdd29c624ed1e85d4ed7d28acf9b
 
 from flaskr.db import get_db
 
@@ -13,6 +9,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 public_bp = Blueprint("public", __name__, url_prefix="/search")
+
 
 @public_bp.route('/search', methods=('POST', 'GET'))
 def search():
@@ -61,7 +58,7 @@ def search_result():
 @public_bp.route('/purchase', methods=('POST', 'GET'))
 
 def purchase():
-    flight_num = request.args["flight_number"]
+    flight_num = request.args["flight_num"]
     airline_name = request.args["airline_name"]
     
     db = get_db()
@@ -73,7 +70,7 @@ def purchase():
 
     # GET
     if request.method == 'GET':
-        return render_template('./auth/make_purchase.html', target_flight=target_flight)
+        return render_template('./auth/purchase.html', target_flight=target_flight)
 
     # POST
     if request.method == "POST":
@@ -82,14 +79,14 @@ def purchase():
         # necessary info
         ticket_id = random.randint(1, 1e7)
         customer_email = g.user["email"] if g.type == "customer" else request.form["customer_email"]
-        purchase_date = datetime.date.today()
+        purchase_date = str(datetime.now())
 
         if error:
             print("error:", error)
             flash(error)
             return render_template('./auth/purchase.html', target_flight=target_flight)
         
-        if not db.execute("SELECT * FROM customer WHERE email=?", (customer_email)).fetchone():
+        if not db.execute("SELECT * FROM customer WHERE email=?", (customer_email,)).fetchone():
             error = "Customer does not exist."
         
         if g.type != "booking_agent":
