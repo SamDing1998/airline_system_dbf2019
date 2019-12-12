@@ -67,6 +67,13 @@ def view_top_customers():
         num_top_begin = str(datetime.now() - relativedelta(months=6))
         sum_top_begin = str(datetime.now() - relativedelta(years=1))
 
+        print(1)
+        print(1)
+        print(now)
+        print(num_top_begin)
+        print(sum_top_begin)
+        print(agent_email)
+
         # get reference to database
         db = get_db()
 
@@ -87,10 +94,20 @@ def view_top_customers():
         num_tops_list = []
         sum_tops_list = []
 
+        print(1)
+        print(1)
+        print(num_tops)
+        print(1)        
+        print(1)
+
         idx = 1
         for row in num_tops:
             d = {}
+<<<<<<< HEAD
+            d["email"] = row["email"]
+=======
             d["email"] = row["customer_email"]
+>>>>>>> d367fe56ebbff420a149b1f5e7f25f24e1d8057d
             print(d['email'])
             d["count"] = row["num"]
             d["index"] = idx
@@ -107,12 +124,17 @@ def view_top_customers():
             idx += 1
         print(num_tops_list, sum_tops_list)
 
+
         return render_template("./booking_agent/view_top_customers.html", num_tops_list=num_tops_list, sum_tops_list=sum_tops_list)
     return render_template('./booking_agent/booking_agent.html')
 
 
 
+<<<<<<< HEAD
+@agent_bp.route("/view_my_commissions", methods=('GET', 'POST'))
+=======
 @agent_bp.route("/view_my_commissions", methods=("POST", "GET"))
+>>>>>>> d367fe56ebbff420a149b1f5e7f25f24e1d8057d
 @login_required_agent
 def view_my_commissions():
     if request.method == "POST":

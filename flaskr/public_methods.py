@@ -48,7 +48,7 @@ def search_result():
                                "JOIN (SELECT airport_name, airport_city as arrival_city FROM airport) A2 "
                                "ON arrival_airport=A2.airport_name where departure_airport LIKE ? "
                                "AND departure_city LIKE ? AND arrival_airport LIKE ? AND arrival_city LIKE ? "
-                               "AND departure_time between ? and ?",
+                               "AND departure_time BETWEEN ? and ?",
                                (departure_airport, departure_city, arrival_airport, arrival_city, begin_date, end_date)).fetchall()
 
         return render_template('auth/search_result.html', result_flights=result_flights)
@@ -79,6 +79,7 @@ def purchase():
         # necessary info
         ticket_id = random.randint(1, 1e7)
         customer_email = g.user["email"] if g.type == "customer" else request.form["customer_email"]
+
         purchase_date = str(datetime.now())
 
         if error:
@@ -100,5 +101,5 @@ def purchase():
                    '(?, ?, ?, ?)', (ticket_id, customer_email, booking_agent_id, purchase_date))
         db.commit()
 
-        print("Purchase POST finished")
+        flash('Purchase Success')
         return redirect(url_for('public.search'))
