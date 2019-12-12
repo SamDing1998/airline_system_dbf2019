@@ -50,7 +50,7 @@ def search_result():
                                "AND departure_time between ? and ?",
                                (departure_airport, departure_city, arrival_airport, arrival_city, begin_date, end_date)).fetchall()
 
-        return render_template('customer/search_result.html', result_flights=result_flights)
+        return render_template('auth/search_result.html', result_flights=result_flights)
     return render_template('auth/login.html')
 
 
