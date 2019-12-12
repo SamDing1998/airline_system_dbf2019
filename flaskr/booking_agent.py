@@ -62,7 +62,7 @@ def view_my_flights():
 def view_top_customers():
     if request.method == "POST":
         # values
-        agent_email = g.user['email']
+        booking_agent_id= g.user['booking_agent_id']
         now = str(datetime.now())
         num_top_begin = str(datetime.now() - relativedelta(months=6))
         sum_top_begin = str(datetime.now() - relativedelta(years=1))
@@ -73,15 +73,16 @@ def view_top_customers():
         num_tops = db.execute("SELECT customer_email, COUNT(*) as num FROM purchases WHERE booking_agent_id= ? "
                                 "AND purchase_date BETWEEN ? AND ?"
                                 "GROUP BY customer_email ORDER BY num DESC LIMIT 5",
-                                (agent_email, num_top_begin, now))
-        
+                                (booking_agent_id, num_top_begin, now)).fetchall()
+        print(g.user['booking_agent_id'], num_tops)
+
         sum_tops = db.execute("SELECT customer_email, SUM( price * 0.1) as comm_sum " 
                                 "FROM (purchases NATURAL JOIN ticket) as P, flight as F "
                                 "WHERE booking_agent_id = ? "
                                 "AND P.flight_num = F.flight_num "
                                 "AND purchase_date BETWEEN ? AND ? "
                                 "GROUP BY customer_email ORDER BY comm_sum DESC LIMIT 5",
-                                (agent_email, sum_top_begin, now))
+                                (booking_agent_id, sum_top_begin, now)).fetchall()
 
         num_tops_list = []
         sum_tops_list = []
@@ -104,13 +105,14 @@ def view_top_customers():
             d["index"] = idx
             sum_tops_list.append(d)
             idx += 1
-
+        print(num_tops_list, sum_tops_list)
+        print(num_tops_list, sum_tops_list)
         return render_template("./booking_agent/view_top_customers.html", num_tops_list=num_tops_list, sum_tops_list=sum_tops_list)
     return render_template('./booking_agent/booking_agent.html')
 
 
 
-@agent_bp.route("/view_my_commissions")
+@agent_bp.route("/view_my_commissions", methods=("POST", "GET"))
 @login_required_agent
 def view_my_commissions():
     if request.method == "POST":

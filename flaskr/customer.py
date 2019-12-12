@@ -143,7 +143,7 @@ def track_my_spending():
                 #spending_chart_data.append(dp)
                 spending_chart_data.append(dp)
                 idx += 1
-        print(spending_chart_data)
+
         return render_template('customer/track_my_spending.html', spending_chart_data=spending_chart_data, dp_num=idx, total_spending=total_spending)
     return render_template('customer/customer.html')
 

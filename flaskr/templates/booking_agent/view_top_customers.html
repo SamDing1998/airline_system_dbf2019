@@ -11,7 +11,6 @@
     <br>
     <br>
     <div id="sumChartContainer" style="height: 300px; width: 100%;"></div>
-    <h2>You total spending in this period(Default is past 1 year) is: {{ total_spending }} </h>
 </body>
 
 <script type="text/javascript">
@@ -35,7 +34,7 @@
                 dataPoints: [      
                     
                     {% for c in num_tops_list %}
-                            { x: {{ c['idx'] }}, y: {{c['num']}}, label: '{{ c['email'] }}' },
+                            { x: {{ c['index'] }}, y: {{c['count']}}, label: '{{ c['email'] }}' },
                     {% endfor %}
 
                 ]
@@ -60,7 +59,7 @@
                 dataPoints: [      
                     
                     {% for c in sum_tops_list %}
-                            { x: {{ c['idx'] }}, y: {{c['sum']}}, label: '{{ c['email'] }}' },
+                            { x: {{ c['index'] }}, y: {{c['sum']}}, label: '{{ c['email'] }}' },
                     {% endfor %}
 
                 ]
