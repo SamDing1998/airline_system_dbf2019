@@ -19,10 +19,10 @@
           <th>Arrive Airport</th>
           <th>Delay Status</th>
       </tr>
-        {% if cust_flights %}
-        {% for f in cust_flights %}
+        {% if my_flights %}
+        {% for f in my_flights %}
         <tr>
-            <th>{{ f['flight_number'] }}</th>
+            <th>{{ f['flight_num'] }}</th>
             <th>{{ f['airline_name'] }}</th>
             <th>{{ f['departure_airport'] }}</th>
             <th>{{ f['departure_time'] }}</th>

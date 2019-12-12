@@ -29,7 +29,7 @@ def view_my_flights():
         departure_airport = request.form["departure_airport"] + "%"
         arrival_airport = request.form["departure_city"] + "%"
         arrival_city = request.form["arrival_city"] + "%"
-        airline_name = request.form["airline_name"]
+        airline_name = request.form["airline_name"] + "%"
 
         # get reference to database
         db = get_db()
@@ -42,17 +42,17 @@ def view_my_flights():
         if begin_date > end_date:
             flash("Invalid Date: Begin date > End date")
             return redirect(url_for("agent.home"))
-
-        cust_flights = db.execute("select * from flight JOIN "
-                               "(SELECT airport_name, airport_city AS departure_city FROM airport) A1 "
-                               "ON departure_airport=A1.airport_name "
-                               "JOIN (SELECT airport_name, airport_city as arrival_city FROM airport) A2 "
-                               "ON arrival_airport=A2.airport_name where airline_name=? and departure_airport LIKE ? "
-                               "AND departure_city LIKE ? AND arrival_airport LIKE ? AND arrival_city LIKE ? "
-                               "AND departure_time between ? and  ?",
-                               (airline_name, departure_airport, departure_city, arrival_airport, arrival_city, begin_date, end_date)) # fetch all?
-
-        return render_template('./booking_agent/view_my_flights.html', cust_flights=cust_flights)
+        db.execute("SELECT * FROM purchases ")
+        my_flights = db.execute('SELECT * FROM purchases NATURAL JOIN Ticket NATURAL JOIN flight '
+                       'JOIN (SELECT airport_name, airport_city as depart_city FROM Airport) A ON departure_airport=A.airport_name '
+                       'JOIN (SELECT airport_name, airport_city as arrive_city FROM Airport) A2 ON arrival_airport=A2.airport_name '
+                       'WHERE booking_agent_id=? AND departure_airport LIKE ? AND depart_city LIKE ? AND arrival_airport LIKE ? AND arrive_city LIKE ?'
+                       'AND departure_time BETWEEN ? AND ? AND airline_name LIKE ?',
+                       (g.user['booking_agent_id'], departure_airport, departure_city, arrival_airport, arrival_city, begin_date, end_date, airline_name)).fetchall()
+        print(my_flights)
+        for r in my_flights:
+            print(r['airline_name'])
+        return render_template('./booking_agent/view_my_flights.html', my_flights=my_flights)
     return render_template('./booking_agent/booking_agent.html')
 
 
