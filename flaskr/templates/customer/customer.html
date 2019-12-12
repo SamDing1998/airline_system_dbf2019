@@ -12,7 +12,7 @@
 <form method="post" action="{{url_for('customer.view_my_flights')}}">
     <h1>View My Flights</h1>
     <label for="airline_name">Airline Name</label>
-    <input id="airline_name" name="airline_name" type="text" value= "{{ g.user['airline_name'] }}" readonly="true">
+    <input id="airline_name" name="airline_name" type="text">
     <label for="begin_date" >Begin Date</label>
     <input id="begin_date" name="begin_date" type="date">
     <label for="end_date">End Data</label>
