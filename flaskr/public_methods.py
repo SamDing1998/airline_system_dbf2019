@@ -3,12 +3,13 @@ from flask import (
 )
 
 from flaskr.db import get_db
-
+from flaskr.auth import login_required_customer
 import random
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 public_bp = Blueprint("public", __name__, url_prefix="/search")
+
 
 @public_bp.route('/search', methods=('POST', 'GET'))
 def search():
@@ -49,15 +50,15 @@ def search_result():
                                "AND departure_city LIKE ? AND arrival_airport LIKE ? AND arrival_city LIKE ? "
                                "AND departure_time between ? and ?",
                                (departure_airport, departure_city, arrival_airport, arrival_city, begin_date, end_date)).fetchall()
-
+        print(result_flights, begin_date, end_date)
         return render_template('auth/search_result.html', result_flights=result_flights)
     return render_template('auth/login.html')
 
 
 @public_bp.route('/purchase', methods=('POST', 'GET'))
-
+@login_required_customer
 def purchase():
-    flight_num = request.args["flight_number"]
+    flight_num = request.args["flight_num"]
     airline_name = request.args["airline_name"]
     
     db = get_db()

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post">
+  <form method="post" action="{{ url_for('auth.login') }}">
     <label for="type">Type</label>
     <select name = "type" id="type" onchange="changetype(this.options[this.selectedIndex].value)">
       <option value="Customer">Customer</option>

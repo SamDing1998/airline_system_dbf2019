@@ -114,9 +114,9 @@ def login():
                 session['key'] = user['username']
                 return redirect(url_for("airline_staff.home"))
         elif usertype == 'Customer':
-            user = db.execute(
-                'SELECT * FROM customer WHERE email = ?', (username)
-            ).fetchone()
+            print(username)
+            print(type(username))
+            user = db.execute('SELECT * FROM customer WHERE email=?', (username, )).fetchone()
 
             if user is None:
                 error = 'Incorrect username.'
@@ -161,8 +161,19 @@ def load_logged_in_user():
         g.user = None
     else:
         if type == 'Airline Staff':
+            g.type = 'staff'
             g.user = get_db().execute(
                 'SELECT * FROM airline_staff WHERE username = ?', (key,)
+            ).fetchone()
+        elif type == 'Customer':
+            g.type = 'customer'
+            g.user = get_db().execute(
+                'SELECT * FROM customer WHERE email = ?', (key,)
+            ).fetchone()
+        else:
+            g.type = 'agent'
+            g.user = get_db().execute(
+                'SELECT * FROM booking_agent WHERE email = ?', (key,)
             ).fetchone()
 
 
