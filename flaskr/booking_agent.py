@@ -70,7 +70,7 @@ def view_top_customers():
         # get reference to database
         db = get_db()
 
-        num_tops = db.execute("SELECT customer_email, COUNT(*) as num FROM purchases WHERE booking_agent_id=? "
+        num_tops = db.execute("SELECT customer_email, COUNT(*) as num FROM purchases WHERE booking_agent_id= ? "
                                 "AND purchase_date BETWEEN ? AND ?"
                                 "GROUP BY customer_email ORDER BY num DESC LIMIT 5",
                                 (agent_email, num_top_begin, now))
@@ -83,14 +83,14 @@ def view_top_customers():
                                 "GROUP BY customer_email ORDER BY comm_sum DESC LIMIT 5",
                                 (agent_email, sum_top_begin, now))
 
-
         num_tops_list = []
         sum_tops_list = []
 
         idx = 1
         for row in num_tops:
             d = {}
-            d["email"] = row["email"]
+            d["email"] = row["customer_email"]
+            print(d['email'])
             d["count"] = row["num"]
             d["index"] = idx
             num_tops_list.append(d)
@@ -99,7 +99,7 @@ def view_top_customers():
         idx = 1
         for row in sum_tops:
             d = {}
-            d["email"] = row["email"]
+            d["email"] = row["customer_email"]
             d["sum"] = row["comm_sum"]
             d["index"] = idx
             sum_tops_list.append(d)
@@ -152,6 +152,6 @@ def view_my_commissions():
                                     (g.user["booking_agent_id"], begin_date, end_date)).fetchone()['c']
         
 
-        return render_template('./booking_agent/view_my_commission.html', total_commission=total_commission, average_commission=average_commission, sold_ticket_num=sold_ticket_num)
+        return render_template('./booking_agent/view_my_commissions.html', total_commission=total_commission, average_commission=average_commission, sold_ticket_num=sold_ticket_num)
     return render_template('./booking_agent/booking_agent.html')
     

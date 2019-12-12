@@ -39,8 +39,6 @@ window.onload = function () {
                     { x: {{ s['idx'] }}, y: {{s['sum']}}, label: '{{ s['year'] }}-{{ s['month'] }}' },
                 {% endfor %}
             ]
-
-            dataPoints: datalist
         }]
     });
     chart.render();

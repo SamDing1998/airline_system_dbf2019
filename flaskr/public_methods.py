@@ -79,7 +79,7 @@ def purchase():
         # necessary info
         ticket_id = random.randint(1, 1e7)
         customer_email = g.user["email"] if g.type == "customer" else request.form["customer_email"]
-        purchase_date = str(datetime.now())
+        purchase_date = str(datetime.now().date())
 
         if error:
             print("error:", error)
