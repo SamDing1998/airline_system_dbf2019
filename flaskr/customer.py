@@ -2,10 +2,12 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 from flaskr.auth import login_required_customer
-from flaskr.database import get_db
+from flaskr.db import get_db
 
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
+
+from flaskr.db import get_db
 
 customer_bp = Blueprint("customer", __name__, url_prefix="/customer")
 
@@ -40,7 +42,7 @@ def view_my_flights():
         print(begin_date, end_date)
         if begin_date > end_date:
             flash("Invalid Date: Begin date > End date")
-            return redirect(url_for(customer.home))
+            return redirect(url_for("customer.home"))
 
         cust_flights = db.execute("select * from flight JOIN "
                                "(SELECT airport_name, airport_city AS departure_city FROM airport) A1 "
@@ -49,7 +51,7 @@ def view_my_flights():
                                "ON arrival_airport=A2.airport_name where airline_name=? and departure_airport LIKE ? "
                                "AND departure_city LIKE ? AND arrival_airport LIKE ? AND arrival_city LIKE ? "
                                "AND departure_time between ? and  ?",
-                               (airline_name, departure_airport, departure_city, arrival_airport, arrival_city, from_date, to_date)) # fetch all?
+                               (airline_name, departure_airport, departure_city, arrival_airport, arrival_city, begin_date, end_date)) # fetch all?
 
         return render_template('./customer/view_my_flights.html', cust_flights=cust_flights)
     return render_template('./customer/customer.html')
@@ -58,7 +60,7 @@ def view_my_flights():
 
 @customer_bp.route("/track_my_spending")
 @login_required_customer
-def track_my_spending(){
+def track_my_spending():
     if request.method == "POST":
         # retrive values
         begin_date = request.form["begin_date"]
@@ -74,11 +76,13 @@ def track_my_spending(){
         else:
             begin_date = begin_date + " 00:00:00"
             end_date = end_date + " 23:59:59"
+
+
             sum_begin_date = begin_date
         print(begin_date, end_date)
         if begin_date > end_date:
             flash("Invalid Date: Begin date > End date")
-            return redirect(url_for(customer.home))
+            return redirect(url_for("customer.home"))
 
         monthly_spending = db.execute("SELECT strftime('%Y', purchase_date) AS year, strftime('%m', purchase_date) AS month, SUM(price) AS sum ",
                                 "FROM ( ticket NATURAL JOIN purchases NATURAL JOIN flight) as T ",
@@ -88,7 +92,7 @@ def track_my_spending(){
 
         total_spending = db.execute("SELECT SUM(price) as s "
                                     "FROM ticket NATURAL JOIN purchases NATURAL JOIN flight "
-                                    "WHERE email = ? AND purchase_time BETWEEN ? AND ? ",
+                                    "WHERE email = ? AND purchase_date BETWEEN ? AND ? ",
                                     (g.user["email"], begin_date, end_date)).fetchone()['s']
 
         existing_spends = {}
@@ -100,10 +104,10 @@ def track_my_spending(){
         idx = 1
 
         # parse to int values
-        start_year = int(from_date[:4])
-        start_month = int(from_date[5:7])
-        end_year = int(to_date[:4])
-        end_month = int(to_date[5:7])
+        start_year = int(begin_date[:4])
+        start_month = int(begin_date[5:7])
+        end_year = int(end_date[:4])
+        end_month = int(end_date[5:7])
 
         for i in range(start_year, end_year + 1):
             # check year -> start/end month
@@ -121,11 +125,11 @@ def track_my_spending(){
                 dp = {}
                 dp["year"] = i
                 dp["month"] = j
-                if (i, j) in exist_cost.keys():
-                    d["sum"] = exist_cost[(i, j)]
+                if (i, j) in existing_spends.keys():
+                    dp["sum"] = existing_spends[(i, j)]
                 else:
-                    d["sum"] = 0
-                d["idx"] = idx
+                    dp["sum"] = 0
+                dp["idx"] = idx
                 spending_chart_data.append(dp)
                 idx += 1
 
@@ -133,6 +137,6 @@ def track_my_spending(){
     return render_template('./customer/customer.html')
 
 
-}
+
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="flaskr" uuid="1fdf844b-2865-4382-b7c3-8ff5ed5205ab">
+    <data-source source="LOCAL" name="flaskr" uuid="7249c659-7dc0-4304-b01e-0d3b379028c0">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>

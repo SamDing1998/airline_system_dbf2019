@@ -6,12 +6,14 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from flaskr.auth import login_required_staff
 from flaskr.db import get_db
 
 as_bp = Blueprint('airline_staff', __name__, url_prefix='/airline_staff')
 
 
 @as_bp.route('/view_my_flights', methods=('GET', 'POST'))
+@login_required_staff
 def view_my_flights():
     if request.method == "POST":
         from_date = request.form["from_date"]
@@ -43,11 +45,13 @@ def view_my_flights():
 
 
 @as_bp.route('/staff_home', methods=('GET', 'POST'))
+@login_required_staff
 def home():
     return render_template('airline_staff/airline_staff.html')
 
 
 @as_bp.route('/view_booking_agents', methods=('GET', 'POST'))
+@login_required_staff
 def view_booking_agents():
     db = get_db()
     from_date = str(datetime.now())
@@ -67,6 +71,7 @@ def view_booking_agents():
 
 
 @as_bp.route('/view_customers', methods=('GET', 'POST'))
+@login_required_staff
 def view_customers():
     airline_name = request.form['airline_name']
     try:
@@ -100,6 +105,7 @@ def view_customers():
 
 
 @as_bp.route('/add_airplane', methods=('POST', 'GET'))
+@login_required_staff
 def add_airplane():
     airline_name = request.form['airline_name']
     airplane_id = request.form['airplane_id']
@@ -123,6 +129,7 @@ def add_airplane():
 
     return redirect(url_for("airline_staff.home"))
 @as_bp.route('/add_flight', methods=('POST', 'GET'))
+@login_required_staff
 def add_flight():
     airline_name = request.form['airline_name_flight']
     airplane_id = request.form['airplane_id_flight']
@@ -178,6 +185,7 @@ def add_flight():
     return redirect(url_for("airline_staff.home"))
 
 @as_bp.route('/add_airport', methods=('POST', 'GET'))
+@login_required_staff
 def add_airport():
     airport_name = request.form['airport_name']
     airport_city = request.form['airport_city']
@@ -196,6 +204,7 @@ def add_airport():
     return redirect(url_for('airline_staff.home'))
 
 @as_bp.route('/change_status', methods=('POST', 'GET'))
+@login_required_staff
 def change_status():
     airline_name = request.form['airline_name_status']
     flight_num = request.form['flight_number_status']
@@ -226,6 +235,7 @@ def change_status():
     return redirect(url_for("airline_staff.home"))
 
 @as_bp.route('/view_report', methods=('POST', 'GET'))
+@login_required_staff
 def view_report():
     if request.form["type"] == 'other':
         from_date = request.form["from_date"]
@@ -277,6 +287,7 @@ def view_report():
     return render_template('report.html', spending=spending)
 
 @as_bp.route('/compare_revenue', methods=('POST', 'GET'))
+@login_required_staff
 def compare_revenue():
     db = get_db()
     cur = str(datetime.now())
@@ -298,10 +309,12 @@ def compare_revenue():
     return render_template('compare_revenue.html', last_year_direct=last_year_direct, last_year_indirect=last_year_indirect, last_month_direct=last_month_direct, last_month_indirect=last_month_indirect)
 
 @as_bp.route('/logout', methods=('POST', 'GET'))
+@login_required_staff
 def logout():
     return render_template('auth/login.html')
 
 @as_bp.route('/top_d', methods=('POST', 'GET'))
+@login_required_staff
 def top_d():
     from_date = str(datetime.now())
     to_date_month = str(datetime.now() - relativedelta(month=3))
