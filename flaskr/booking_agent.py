@@ -1,8 +1,9 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from flaskr.auth import login_required_
-from flaskr.database import get_db
+
+from flaskr.auth import login_required_agent
+from flaskr.db import get_db
 
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
@@ -10,7 +11,7 @@ from datetime import datetime
 agent_bp = Blueprint("agent", __name__, url_prefix="/booking_agent")
 
 
-@agent.route('/booking_agent_home', methods=('POST', 'GET'))
+@agent_bp.route('/booking_agent_home', methods=('POST', 'GET'))
 @login_required_agent
 def home():
     return render_template('./booking_agent/booking_agent.html')
@@ -40,7 +41,7 @@ def view_my_flights():
         print(begin_date, end_date)
         if begin_date > end_date:
             flash("Invalid Date: Begin date > End date")
-            return redirect(url_for(agent.home))
+            return redirect(url_for("agent.home"))
 
         cust_flights = db.execute("select * from flight JOIN "
                                "(SELECT airport_name, airport_city AS departure_city FROM airport) A1 "
@@ -49,14 +50,14 @@ def view_my_flights():
                                "ON arrival_airport=A2.airport_name where airline_name=? and departure_airport LIKE ? "
                                "AND departure_city LIKE ? AND arrival_airport LIKE ? AND arrival_city LIKE ? "
                                "AND departure_time between ? and  ?",
-                               (airline_name, departure_airport, departure_city, arrival_airport, arrival_city, from_date, to_date)) # fetch all?
+                               (airline_name, departure_airport, departure_city, arrival_airport, arrival_city, begin_date, end_date)) # fetch all?
 
         return render_template('./booking_agent/view_my_flights.html', cust_flights=cust_flights)
     return render_template('./booking_agent/booking_agent.html')
 
 
 
-@agent.route("/view_top_customers")
+@agent_bp.route("/view_top_customers")
 @login_required_agent
 def view_top_customers():
     if request.method == "POST":
@@ -69,8 +70,8 @@ def view_top_customers():
         # get reference to database
         db = get_db()
 
-        num_tops = db.execute("SELECT email, COUNT(*) as num FROM purchase WHERE booking_agent=? "
-                                "AND purchase_date_time BETWEEN ? AND ?"
+        num_tops = db.execute("SELECT cust_email, COUNT(*) as num FROM purchases WHERE booking_agent_id=? "
+                                "AND purchase_date BETWEEN ? AND ?"
                                 "GROUP BY cust_email ORDER BY num DESC LIMIT 5",
                                 (agent_email, npm_top_begin, now))
         
@@ -100,16 +101,16 @@ def view_top_customers():
             d = {}
             d["email"] = row["email"]
             d["sum"] = row["comm_sum"]
-            d["index"] = index
+            d["index"] = idx
             sum_tops_list.append(d)
-            index += 1
+            idx += 1
 
         return render_template("view_top_customers.html", num_tops_list=num_tops_list, sum_tops_list=sum_tops_list)
 
 
 
-@agent.route("/view_my_commissions")
-@require_login_agent
+@agent_bp.route("/view_my_commissions")
+@login_required_agent
 def view_my_commissions():
     if request.method == "POST":
         # retrive values
@@ -130,23 +131,23 @@ def view_my_commissions():
 
         if begin_date > end_date:
             flash("Invalid Date: Begin date > End date")
-            return redirect(url_for(agent.home))
+            return redirect(url_for("agent.home"))
 
         # SQL queries
 
         total_commission = db.execute("SELECT SUM(price * 0.1) as s "
                                     "FROM ticket NATURAL JOIN purchases NATURAL JOIN flight "
-                                    "WHERE booking_agent_id = ? AND purchase_time BETWEEN ? AND ? ",
+                                    "WHERE booking_agent_id = ? AND purchase_date BETWEEN ? AND ? ",
                                     (g.user["booking_agent_id"], begin_date, end_date)).fetchone()['s']
 
         average_commission = db.execute("SELECT AVG(price * 0.1) as a "
                                     "FROM ticket NATURAL JOIN purchases NATURAL JOIN flight "
-                                    "WHERE booking_agent_id = ? AND purchase_time BETWEEN ? AND ? ",
+                                    "WHERE booking_agent_id = ? AND purchase_date BETWEEN ? AND ? ",
                                     (g.user["booking_agent_id"], begin_date, end_date)).fetchone()['a']
         
         sold_ticket_num = db.execute("SELECT COUNT(*) as c "
                                     "FROM ticket NATURAL JOIN purchases NATURAL JOIN flight "
-                                    "WHERE booking_agent_id = ? AND purchase_time BETWEEN ? AND ? ",
+                                    "WHERE booking_agent_id = ? AND purchase_date BETWEEN ? AND ? ",
                                     (g.user["booking_agent_id"], begin_date, end_date)).fetchone()['c']
         
 
