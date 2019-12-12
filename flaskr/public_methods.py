@@ -1,7 +1,10 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
+<<<<<<< HEAD
 from flaskr.auth import login_required
+=======
+>>>>>>> 5ae05581c1d1fdd29c624ed1e85d4ed7d28acf9b
 
 from flaskr.db import get_db
 
@@ -56,7 +59,7 @@ def search_result():
 
 
 @public_bp.route('/purchase', methods=('POST', 'GET'))
-@login_required
+
 def purchase():
     flight_num = request.args["flight_number"]
     airline_name = request.args["airline_name"]
@@ -96,7 +99,7 @@ def purchase():
 
         db.execute('INSERT INTO Ticket (ticket_id, airline_name, flight_num) VALUES '
                    '(?, ?, ?)', (ticket_id, airline_name, flight_num))
-        db.execute('INSERT INTO Purchase (ticket_id, customer_email, booking_agent_id, purchase_date) VALUES '
+        db.execute('INSERT INTO purchases (ticket_id, customer_email, booking_agent_id, purchase_date) VALUES '
                    '(?, ?, ?, ?)', (ticket_id, customer_email, booking_agent_id, purchase_date))
         db.commit()
 
