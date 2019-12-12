@@ -65,6 +65,7 @@ def view_my_flights():
 
 
 
+
 @customer_bp.route("/track_my_spending", methods=("POST", "GET"))
 @login_required_customer
 def track_my_spending():
@@ -90,10 +91,11 @@ def track_my_spending():
         print(2)
 
         print(begin_date, end_date)
-        
+
         if begin_date > end_date:
             flash("Invalid Date: Begin date > End date")
             return redirect(url_for("customer.home"))
+
 
         monthly_spending = db.execute("SELECT strftime('%Y', purchase_date) AS year, strftime('%m', purchase_date) AS month, "
                                       "SUM(price) AS sum FROM ( ticket NATURAL JOIN purchases NATURAL JOIN flight) as T "

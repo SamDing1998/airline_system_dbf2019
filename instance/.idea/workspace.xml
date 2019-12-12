@@ -67,7 +67,6 @@
           <expand>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-<<<<<<< HEAD
               <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@20a81219" type="7427dc5b:ServiceModel$ServiceGroupNode" />
             </path>
             <path>
@@ -79,14 +78,6 @@
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
               <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@20a81219" type="7427dc5b:ServiceModel$ServiceGroupNode" />
               <item name="com.intellij.execution.services.ServiceModel$ServiceNode@62a33e27" type="9fbbdea:ServiceModel$ServiceNode" />
-=======
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@ac70fb25" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@ac70fb25" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@5ec5fbdb" type="9fbbdea:ServiceModel$ServiceNode" />
->>>>>>> f1a65d9dca042a695d2076d60ab594a074acaaee
             </path>
           </expand>
           <select />
